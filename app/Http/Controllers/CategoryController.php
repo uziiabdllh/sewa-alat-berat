@@ -8,58 +8,79 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan semua kategori
      */
     public function index()
     {
-        //
+        $categories = Category::latest()->paginate(10);
+
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan form tambah kategori
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan kategori baru
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|max:100|unique:categories,name',
+            'description' => 'nullable',
+        ]);
+
+        Category::create($validated);
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Kategori berhasil ditambahkan.');
     }
 
     /**
-     * Display the specified resource.
+     * Menampilkan detail kategori
      */
     public function show(Category $category)
     {
-        //
+        return view('admin.categories.show', compact('category'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form edit kategori
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mengupdate kategori
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|max:100|unique:categories,name,' . $category->id,
+            'description' => 'nullable',
+        ]);
+
+        $category->update($validated);
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Kategori berhasil diperbarui.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus kategori
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Kategori berhasil dihapus.');
     }
 }
