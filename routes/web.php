@@ -78,4 +78,17 @@ Route::middleware('auth')->group(function () {
 
 });
 
+#barr
+Route::get('/detail-alat', function () {
+    return view('customer.detail');
+});
+
+Route::get('/booking', function () {
+    return view('customer.booking');
+});
+
+Route::get('/riwayat', function () {
+    return view('customer.riwayat');
+});
+
 require __DIR__.'/auth.php';
