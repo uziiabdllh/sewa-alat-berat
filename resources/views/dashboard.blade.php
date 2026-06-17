@@ -85,7 +85,7 @@
 
             <div class="card-footer bg-white">
 
-                <a href="#"
+                <a href="/detail-alat"
                    class="btn btn-warning w-100">
 
                     Detail
