@@ -12,22 +12,29 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ReportController;
 
 use App\Http\Controllers\CustomerController;
-
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\EquipmentController as FrontendEquipmentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
 
-// Halaman Awal
-Route::get('/', function () {
-    return view('welcome');
-});
+// Frontend Customer
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
 
-// Dashboard Frontend
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
+Route::get('/katalog-alat', [FrontendEquipmentController::class, 'index'])
+    ->name('customer.katalog');
+
+Route::get('/detail-alat/{id}', [FrontendEquipmentController::class, 'show'])
+    ->name('customer.detail');
+
+Route::view('/booking', 'customer.booking')
+    ->name('customer.booking');
+
+Route::view('/riwayat', 'customer.riwayat')
+    ->name('customer.riwayat');
 
 // Route Admin
 Route::middleware(['auth', 'admin'])
@@ -84,17 +91,12 @@ Route::get(
     [ReportController::class, 'paymentPdf']
 )->name('reports.payments.pdf');
 
-// Frontend Customer
-Route::get('/detail-alat', function () {
-    return view('customer.detail');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/booking', function () {
-    return view('customer.booking');
-});
+Route::get('/katalog-alat', [FrontendEquipmentController::class, 'index'])
+    ->name('customer.katalog');
 
-Route::get('/riwayat', function () {
-    return view('customer.riwayat');
-});
-
+Route::get('/detail-alat/{id}', [FrontendEquipmentController::class, 'show'])
+    ->name('customer.detail');
+    
 require __DIR__.'/auth.php';
