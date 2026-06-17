@@ -2,64 +2,110 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Equipment;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreEquipmentRequest;
+use App\Http\Requests\UpdateEquipmentRequest;
+use Illuminate\Support\Facades\Storage;
 
 class EquipmentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan semua data alat
      */
     public function index()
     {
-        //
+        $equipments = Equipment::with('category')
+            ->latest()
+            ->paginate(10);
+
+        return view('admin.equipments.index', compact('equipments'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Form tambah alat
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+
+        return view('admin.equipments.create', compact('categories'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Simpan alat
      */
-    public function store(Request $request)
+    public function store(StoreEquipmentRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')
+                ->store('equipments', 'public');
+        }
+
+        Equipment::create($data);
+
+        return redirect()
+            ->route('equipments.index')
+            ->with('success', 'Data alat berhasil ditambahkan.');
     }
 
     /**
-     * Display the specified resource.
+     * Detail alat
      */
     public function show(Equipment $equipment)
     {
-        //
+        return view('admin.equipments.show', compact('equipment'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Form edit alat
      */
     public function edit(Equipment $equipment)
     {
-        //
+        $categories = Category::all();
+
+        return view('admin.equipments.edit', compact('equipment', 'categories'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update alat
      */
-    public function update(Request $request, Equipment $equipment)
+    public function update(UpdateEquipmentRequest $request, Equipment $equipment)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+
+            if ($equipment->image) {
+                Storage::disk('public')->delete($equipment->image);
+            }
+
+            $data['image'] = $request->file('image')
+                ->store('equipments', 'public');
+        }
+
+        $equipment->update($data);
+
+        return redirect()
+            ->route('equipments.index')
+            ->with('success', 'Data alat berhasil diperbarui.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus alat
      */
     public function destroy(Equipment $equipment)
     {
-        //
+        if ($equipment->image) {
+            Storage::disk('public')->delete($equipment->image);
+        }
+
+        $equipment->delete();
+
+        return redirect()
+            ->route('equipments.index')
+            ->with('success', 'Data alat berhasil dihapus.');
     }
 }

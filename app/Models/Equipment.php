@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Equipment extends Model
 {
     protected $table = 'equipments';
-
     protected $fillable = [
         'category_id',
         'code',
@@ -19,14 +18,25 @@ class Equipment extends Model
         'daily_price',
         'status',
         'image',
-        'description'
+        'description',
     ];
 
+    protected $casts = [
+        'daily_price' => 'decimal:2',
+        'year' => 'integer',
+    ];
+
+    /**
+     * Relasi ke kategori
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Relasi ke booking
+     */
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
