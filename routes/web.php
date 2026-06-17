@@ -3,8 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\EquipmentController;
+use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\PaymentController;
+
+use App\Http\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +23,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Dashboard Frontend (sementara tanpa login)
+// Dashboard Frontend
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
@@ -35,6 +41,25 @@ Route::middleware(['auth', 'admin'])
             AdminCategoryController::class
         );
 
+        Route::resource(
+            'equipments',
+            EquipmentController::class
+        );
+
+        Route::resource(
+            'customers',
+            CustomerController::class
+        );
+
+        Route::resource(
+            'bookings',
+            BookingController::class
+        );
+
+        Route::resource(
+            'payments',
+            PaymentController::class
+        );
     });
 
 // Route Profile
