@@ -1,19 +1,42 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+@extends('layouts.app')
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <h1 class="text-3xl font-bold">
-                        Dashboard Admin
-                    </h1>
+@section('content')
 
-                    <p class="mt-4">
-                        Selamat datang Administrator.
-                    </p>
-                </div>
-            </div>
+<!-- HERO SECTION -->
+
+<div class="position-relative">
+
+    <img
+        src="https://images.unsplash.com/photo-1504307651254-35680f356dfd"
+        class="w-100"
+        style="height: 700px; object-fit: cover;">
+
+    <div
+        class="position-absolute top-50 start-50 translate-middle text-center text-white">
+
+        <h1 class="display-2 fw-bold">
+            Sewa Alat Berat Online
+        </h1>
+
+        <p class="fs-4">
+            Temukan alat berat terbaik untuk proyek konstruksi Anda
+        </p>
+
+        <div class="input-group mt-4 shadow">
+
+            <input
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Cari alat berat...">
+
+            <button class="btn btn-warning fw-bold">
+                Cari
+            </button>
 
         </div>
+
     </div>
-</x-app-layout>
+
+</div>
+
+@endsection

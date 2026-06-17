@@ -1,41 +1,54 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 
-Route::middleware(['auth', 'admin'])
-    ->prefix('admin')
-    ->group(function () {
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
-        Route::get('/dashboard',
-            [DashboardController::class, 'index'])
-            ->name('admin.dashboard');
-
-        Route::resource(
-            'categories',
-            CategoryController::class
-        );
-
-    });
+// Halaman Awal
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Dashboard Frontend (sementara tanpa login)
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+});
 
+// Route Admin
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->group(function () {
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('admin.dashboard');
+
+        Route::resource(
+            'categories',
+            AdminCategoryController::class
+        );
+
+    });
+
+// Route Profile
 Route::middleware('auth')->group(function () {
 
-    // Profile
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
 
-    // Category CRUD
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+
     Route::resource('categories', CategoryController::class);
 
 });

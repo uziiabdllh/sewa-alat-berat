@@ -14,10 +14,6 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-<<<<<<< HEAD
         Schema::defaultStringLength(191);
-=======
-    Schema::defaultStringLength(191);
->>>>>>> f03d61c (membuat dashboard login admin)
     }
 }
