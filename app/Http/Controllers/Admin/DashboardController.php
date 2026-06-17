@@ -5,33 +5,40 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Equipment;
+use App\Models\Booking;
+use App\Models\Payment;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $totalAlat = Equipment::count();
+        $totalCategory = Category::count();
 
-        $alatTersedia = Equipment::where(
-            'status',
-            'available'
-        )->count();
+        $totalEquipment = Equipment::count();
 
-        $alatDisewa = Equipment::where(
-            'status',
-            'rented'
-        )->count();
+        $totalBooking = Booking::count();
 
-        $totalKategori = Category::count();
+        $totalPayment = Payment::count();
 
-        return view(
-            'admin.dashboard',
-            compact(
-                'totalAlat',
-                'alatTersedia',
-                'alatDisewa',
-                'totalKategori'
-            )
-        );
+        $totalIncome = Payment::where('status', 'paid')->sum('amount');
+
+        $latestBookings = Booking::with(['user','equipment'])
+                    ->latest()
+                    ->take(5)
+                    ->get();
+
+        $latestEquipments = Equipment::latest()
+                    ->take(5)
+                    ->get();
+
+        return view('admin.dashboard', compact(
+            'totalCategory',
+            'totalEquipment',
+            'totalBooking',
+            'totalPayment',
+            'totalIncome',
+            'latestBookings',
+            'latestEquipments'
+        ));
     }
 }
