@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ReportController;
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\EquipmentController as FrontendEquipmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,17 +21,39 @@ use App\Http\Controllers\CustomerController;
 |--------------------------------------------------------------------------
 */
 
-// Halaman Awal
-Route::get('/', function () {
-    return view('welcome');
-});
+// ==============================
+// Frontend Customer
+// ==============================
 
-// Dashboard Frontend
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
 
+Route::get('/katalog-alat', [FrontendEquipmentController::class, 'index'])
+    ->name('customer.katalog');
+
+Route::get('/detail-alat/{id}', [FrontendEquipmentController::class, 'show'])
+    ->name('customer.detail');
+
+Route::view('/booking', 'customer.booking')
+    ->name('customer.booking');
+
+Route::view('/riwayat', 'customer.riwayat')
+    ->name('customer.riwayat');
+
+Route::view('/payment', 'customer.payment')
+    ->name('customer.payment');
+
+Route::view('/success', 'customer.success')
+    ->name('customer.success');
+
+Route::view('/history', 'customer.history')
+    ->name('customer.history');
+
+
+// ==============================
 // Route Admin
+// ==============================
+
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->group(function () {
@@ -58,7 +82,11 @@ Route::middleware(['auth', 'admin'])
         )->name('reports.payments');
     });
 
-// Route Profile
+
+// ==============================
+// Profile
+// ==============================
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'edit'])
@@ -73,7 +101,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
 });
 
+
+// ==============================
 // Export PDF
+// ==============================
+
 Route::get(
     'reports/bookings/pdf',
     [ReportController::class, 'bookingPdf']
@@ -84,29 +116,5 @@ Route::get(
     [ReportController::class, 'paymentPdf']
 )->name('reports.payments.pdf');
 
-// Frontend Customer
-Route::get('/detail-alat', function () {
-    return view('customer.detail');
-});
-
-Route::get('/booking', function () {
-    return view('customer.booking');
-});
-
-Route::get('/payment', function () {
-    return view('customer.payment');
-});
-
-Route::get('/success', function () {
-    return view('customer.success');
-}); 
-
-Route::get('/history', function () {
-    return view('customer.history');
-});
-
-Route::get('/riwayat', function () {
-    return view('customer.riwayat');
-});
 
 require __DIR__.'/auth.php';
