@@ -9,9 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $equipments = Equipment::latest()
-            ->take(6)
-            ->get();
+        $equipments = Equipment::latest()->get();
 
         return view('customer.home', compact('equipments'));
     }

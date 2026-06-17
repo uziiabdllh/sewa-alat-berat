@@ -33,7 +33,7 @@
                         </p>
 
                         <p class="text-blue-600 font-bold mt-2">
-                            Rp {{ number_format($equipment->price_per_day,0,',','.') }}/hari
+                            Rp {{ number_format($equipment->daily_price,0,',','.') }}/hari
                         </p>
 
                         <p class="mt-2">

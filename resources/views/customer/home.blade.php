@@ -13,7 +13,25 @@
     </p>
 
 </div>
+<form action="{{ route('customer.katalog') }}" method="GET" class="mb-4">
 
+    <div class="input-group">
+
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Cari alat berat...">
+
+        <button class="btn btn-warning">
+
+            🔍 Cari
+
+        </button>
+
+    </div>
+
+</form>
 <div class="row">
 
     @forelse($equipments as $item)
@@ -21,6 +39,12 @@
         <div class="col-md-4 mb-4">
 
             <div class="card shadow-sm h-100">
+
+                {{-- Gambar Alat --}}
+                <img src="{{ asset('images/alat/' . $item->image) }}"
+                     class="card-img-top"
+                     alt="{{ $item->name }}"
+                     style="height:220px; object-fit:cover;">
 
                 <div class="card-body">
 
@@ -44,6 +68,12 @@
                                 Tersedia
                             </span>
 
+                        @elseif($item->status == 'maintenance')
+
+                            <span class="badge bg-warning text-dark">
+                                Maintenance
+                            </span>
+
                         @else
 
                             <span class="badge bg-danger">
@@ -54,9 +84,8 @@
 
                     </p>
 
-                    <a
-                        href="{{ route('customer.detail',$item->id) }}"
-                        class="btn btn-primary">
+                    <a href="{{ route('customer.detail',$item->id) }}"
+                       class="btn btn-primary">
 
                         Lihat Detail
 
