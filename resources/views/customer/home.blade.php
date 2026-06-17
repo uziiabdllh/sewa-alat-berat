@@ -1,36 +1,87 @@
-<x-app-layout>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+@section('content')
 
-            <h1 class="text-3xl font-bold mb-6">
-                Home Customer
-            </h1>
+<div class="text-center mb-5">
 
-            <p class="mb-6 text-gray-600">
-                Selamat datang di sistem sewa alat berat
-            </p>
+    <h1 class="display-4 fw-bold">
+        Selamat Datang di Sistem Penyewaan Alat Berat
+    </h1>
 
-            {{-- List Alat --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <p class="text-muted">
+        Temukan berbagai alat berat terbaik untuk proyek Anda.
+    </p>
 
-                @foreach($equipments as $item)
+</div>
 
-                    <div class="bg-white shadow rounded p-4">
-                        <h2 class="font-bold">
-                            {{ $item->name }}
-                        </h2>
+<div class="row">
 
-                        <p class="text-gray-600">
-                            Status: {{ $item->status }}
-                        </p>
-                    </div>
+    @forelse($equipments as $item)
 
-                @endforeach
+        <div class="col-md-4 mb-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h4>{{ $item->name }}</h4>
+
+                    <p>
+                        <strong>Kode :</strong>
+                        {{ $item->code }}
+                    </p>
+
+                    <p>
+                        <strong>Harga :</strong>
+                        Rp {{ number_format($item->daily_price,0,',','.') }}/hari
+                    </p>
+
+                    <p>
+
+                        @if($item->status == 'available')
+
+                            <span class="badge bg-success">
+                                Tersedia
+                            </span>
+
+                        @else
+
+                            <span class="badge bg-danger">
+                                Disewa
+                            </span>
+
+                        @endif
+
+                    </p>
+
+                    <a
+                        href="{{ route('customer.detail',$item->id) }}"
+                        class="btn btn-primary">
+
+                        Lihat Detail
+
+                    </a>
+
+                </div>
 
             </div>
 
         </div>
-    </div>
 
-</x-app-layout>
+    @empty
+
+        <div class="col-12">
+
+            <div class="alert alert-warning">
+
+                Belum ada alat tersedia.
+
+            </div>
+
+        </div>
+
+    @endforelse
+
+</div>
+
+@endsection
