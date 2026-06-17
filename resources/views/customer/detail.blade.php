@@ -15,72 +15,41 @@
 
         <div class="col-md-6">
 
-    <h1 class="fw-bold">
-        Excavator Mini
-    </h1>
+            <h2 class="fw-bold">
+                Excavator Mini
+            </h2>
 
-    <h3 class="text-warning mb-3">
-        Rp 1.500.000 / Hari
-    </h3>
+            <h4 class="text-warning">
+                Rp 1.500.000 / hari
+            </h4>
 
-    <span class="badge bg-success mb-3">
-        Tersedia
-    </span>
+            <span class="badge bg-success mb-3">
+                Tersedia
+            </span>
 
-    <hr>
+            <p>
+                Excavator mini cocok digunakan untuk pekerjaan
+                konstruksi, penggalian tanah, dan proyek skala kecil
+                hingga menengah.
+            </p>
 
-    <h5>Deskripsi Alat</h5>
+            <a href="/booking"
+               class="btn btn-warning">
 
-    <p>
-        Excavator Mini merupakan alat berat yang digunakan untuk
-        pekerjaan penggalian, pemindahan material, pembuatan saluran,
-        dan pekerjaan konstruksi lainnya. Alat ini cocok digunakan
-        pada area proyek yang memiliki ruang terbatas.
-    </p>
+                Sewa Sekarang
 
-    <h5>Spesifikasi</h5>
+            </a>
 
-    <table class="table table-bordered">
+            <a href="/booking"
+   class="btn btn-warning">
 
-        <tr>
-            <th>Berat Operasional</th>
-            <td>5 Ton</td>
-        </tr>
+    Sewa Sekarang
 
-        <tr>
-            <th>Kapasitas Bucket</th>
-            <td>0.25 m³</td>
-        </tr>
-
-        <tr>
-            <th>Bahan Bakar</th>
-            <td>Solar</td>
-        </tr>
-
-        <tr>
-            <th>Tahun Unit</th>
-            <td>2024</td>
-        </tr>
-
-    </table>
-
-    <div class="d-flex gap-2">
-
-        <a href="/booking"
-           class="btn btn-warning">
-
-            Sewa Sekarang
-
-        </a>
-
-        <a href="/dashboard"
-           class="btn btn-outline-secondary">
-
-            Kembali
-
-        </a>
+</a>
+        </div>
 
     </div>
 
 </div>
+
 @endsection

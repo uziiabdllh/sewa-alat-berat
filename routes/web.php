@@ -93,6 +93,18 @@ Route::get('/booking', function () {
     return view('customer.booking');
 });
 
+Route::get('/payment', function () {
+    return view('customer.payment');
+});
+
+Route::get('/success', function () {
+    return view('customer.success');
+}); 
+
+Route::get('/history', function () {
+    return view('customer.history');
+});
+
 Route::get('/riwayat', function () {
     return view('customer.riwayat');
 });
