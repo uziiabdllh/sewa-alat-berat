@@ -22,10 +22,18 @@ use App\Http\Controllers\Frontend\EquipmentController as FrontendEquipmentContro
 */
 
 // ==============================
+// Landing Page
+// ==============================
+
+Route::get('/', function () {
+    return view('welcome');
+})->name('welcome');
+
+// ==============================
 // Frontend Customer
 // ==============================
 
-Route::get('/', [HomeController::class, 'index'])
+Route::get('/home', [HomeController::class, 'index'])
     ->name('home');
 
 Route::get('/katalog-alat', [FrontendEquipmentController::class, 'index'])
