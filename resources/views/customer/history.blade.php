@@ -5,57 +5,116 @@
 <div class="container py-5">
 
     <h2 class="fw-bold mb-4">
-        Riwayat Transaksi
+        Riwayat Booking
     </h2>
 
-    <div class="card shadow">
+    @forelse($bookings as $booking)
+
+    <div class="card shadow-sm border-0 mb-4">
 
         <div class="card-body">
 
-            <table class="table">
+            <div class="d-flex justify-content-between align-items-center">
 
-                <thead>
+                <h5 class="fw-bold mb-0">
+                    🚜 Booking #{{ $booking->booking_code }}
+                </h5>
 
-                    <tr>
-                        <th>Kode</th>
-                        <th>Alat</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                    </tr>
+                @if($booking->status == 'pending')
 
-                </thead>
+                    <span class="badge bg-warning text-dark px-3 py-2">
+                        Menunggu Verifikasi
+                    </span>
 
-                <tbody>
+                @elseif($booking->status == 'approved')
 
-                    <tr>
-                        <td>BK001</td>
-                        <td>Excavator Mini</td>
-                        <td>Rp 7.500.000</td>
-                        <td>
-                            <span class="badge bg-warning">
-                                Menunggu
-                            </span>
-                        </td>
-                    </tr>
+                    <span class="badge bg-success px-3 py-2">
+                        Disetujui
+                    </span>
 
-                    <tr>
-                        <td>BK002</td>
-                        <td>Bulldozer</td>
-                        <td>Rp 4.000.000</td>
-                        <td>
-                            <span class="badge bg-success">
-                                Disetujui
-                            </span>
-                        </td>
-                    </tr>
+                @else
 
-                </tbody>
+                    <span class="badge bg-danger px-3 py-2">
+                        Ditolak
+                    </span>
 
-            </table>
+                @endif
+
+            </div>
+
+            <hr>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <p>
+                        <strong>Alat</strong><br>
+
+                        {{ $booking->equipment->name }}
+                    </p>
+
+                    <p>
+                        <strong>Tanggal Sewa</strong><br>
+
+                        {{ $booking->start_date }}
+                        -
+                        {{ $booking->end_date }}
+
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <p>
+                        <strong>Total Pembayaran</strong><br>
+
+                        Rp {{ number_format($booking->total, 0, ',', '.') }}
+
+                    </p>
+
+                    <p>
+                        <strong>Bukti Pembayaran</strong><br>
+
+                        @if($booking->payment)
+
+                            Sudah Dikirim
+
+                        @else
+
+                            Belum Upload
+
+                        @endif
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="text-end">
+
+                <a href="#"
+                   class="btn btn-outline-primary">
+
+                    Lihat Detail
+
+                </a>
+
+            </div>
 
         </div>
 
     </div>
+
+    @empty
+
+        <div class="alert alert-warning">
+            Belum ada riwayat booking.
+        </div>
+
+    @endforelse
 
 </div>
 

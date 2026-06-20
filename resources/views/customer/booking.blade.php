@@ -9,107 +9,66 @@
     </h2>
 
     <div class="card shadow">
-
         <div class="card-body">
+            
+            <form action="{{ route('customer.booking.store') }}" method="POST">
+                @csrf
 
-            <form>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Nama Penyewa
-                    </label>
-
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Masukkan nama lengkap">
-
-                </div>
+                <input type="hidden"
+                       name="equipment_id"
+                       value="{{ request('equipment_id') }}">
 
                 <div class="mb-3">
-
-                    <label class="form-label">
-                        Email
-                    </label>
-
-                    <input
-                        type="email"
-                        class="form-control"
-                        placeholder="Masukkan email">
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Nomor HP
-                    </label>
-
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder="08xxxxxxxxxx">
-
-                </div>
-
-                <div class="mb-3">
-
                     <label class="form-label">
                         Alamat Proyek
                     </label>
 
                     <textarea
+                        name="project_location"
                         class="form-control"
                         rows="3"
-                        placeholder="Masukkan alamat proyek"></textarea>
-
+                        required>{{ old('project_location') }}</textarea>
                 </div>
 
                 <div class="row">
 
                     <div class="col-md-6">
-
                         <label class="form-label">
                             Tanggal Mulai
                         </label>
 
                         <input
                             type="date"
-                            class="form-control">
-
+                            name="start_date"
+                            class="form-control"
+                            value="{{ old('start_date') }}"
+                            required>
                     </div>
 
                     <div class="col-md-6">
-
                         <label class="form-label">
                             Tanggal Selesai
                         </label>
 
                         <input
                             type="date"
-                            class="form-control">
-
+                            name="end_date"
+                            class="form-control"
+                            value="{{ old('end_date') }}"
+                            required>
                     </div>
 
                 </div>
 
                 <div class="mt-4">
-
-                    <a
-                        href="/payment"
-                        class="btn btn-warning">
-
+                    <button type="submit" class="btn btn-warning">
                         Lanjut Pembayaran
-
-                    </a>
-
+                    </button>
                 </div>
 
             </form>
 
         </div>
-
     </div>
 
 </div>

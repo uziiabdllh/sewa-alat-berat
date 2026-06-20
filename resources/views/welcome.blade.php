@@ -174,7 +174,10 @@
 
         <div class="menu">
 
-            <a href="#">Katalog Produk</a>
+            <a href="{{ route('customer.katalog') }}">
+                Katalog Produk
+            </a>
+            
             <a href="#">Menjadi Mitra</a>
 
             @if (Route::has('login'))
@@ -205,18 +208,19 @@
             Booking mudah, cepat, dan terpercaya untuk kebutuhan proyek Anda.
         </p>
 
-        <div class="search-box">
+        <form action="{{ route('customer.katalog') }}" method="GET" class="search-box">
 
-            <input
-                type="text"
-                placeholder="Cari alat..."
-            >
+    <input
+        type="text"
+        name="search"
+        placeholder="Cari Excavator, Crane, Bulldozer..."
+    >
 
-            <button>
-                CARI
-            </button>
+    <button type="submit">
+        CARI
+    </button>
 
-        </div>
+</form>
 
     </section>
 

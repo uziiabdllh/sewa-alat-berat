@@ -14,7 +14,9 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\EquipmentController as FrontendEquipmentController;
-
+use App\Http\Controllers\Frontend\BookingController1;
+use App\Http\Controllers\Frontend\PaymentController1;
+use App\Http\Controllers\Frontend\HistoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,16 +47,32 @@ Route::get('/detail-alat/{id}', [FrontendEquipmentController::class, 'show'])
 Route::view('/booking', 'customer.booking')
     ->name('customer.booking');
 
+Route::post('/booking', [BookingController1::class, 'store'])
+    ->name('customer.booking.store');
+
 Route::view('/riwayat', 'customer.riwayat')
     ->name('customer.riwayat');
 
-Route::view('/payment', 'customer.payment')
-    ->name('customer.payment');
+Route::get('/payment/{booking}', function ($bookingId) {
+
+    $booking = \App\Models\Booking::findOrFail($bookingId);
+
+    return view('customer.payment', compact('booking'));
+
+})->name('customer.payment');
+
+Route::post('/upload-pembayaran',
+    [PaymentController1::class, 'store'])
+    ->name('customer.payment.store');
+
+Route::view('/upload-pembayaran', 'customer.upload')
+    ->name('customer.upload');
 
 Route::view('/success', 'customer.success')
     ->name('customer.success');
 
-Route::view('/history', 'customer.history')
+Route::get('/history',
+    [HistoryController::class, 'index'])
     ->name('customer.history');
 
 

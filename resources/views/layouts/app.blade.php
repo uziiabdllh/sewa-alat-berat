@@ -5,8 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>TREK - Rental Alat Berat</title>
 
@@ -15,7 +14,7 @@
 
 </head>
 
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
 
 <!-- Navbar -->
 
@@ -24,10 +23,8 @@
     <div class="container">
 
         <a class="navbar-brand fw-bold fs-3"
-           href="/dashboard">
-
+           href="{{ route('home') }}">
             🚜 TREK
-
         </a>
 
         <button class="navbar-toggler"
@@ -45,59 +42,61 @@
             <ul class="navbar-nav ms-auto align-items-center">
 
                 <li class="nav-item">
-
                     <a class="nav-link fw-semibold"
-                       href="/dashboard">
-
+                       href="{{ route('home') }}">
                         Home
-
                     </a>
-
                 </li>
 
                 <li class="nav-item">
-
                     <a class="nav-link fw-semibold"
-                       href="/dashboard">
-
+                       href="{{ route('customer.katalog') }}">
                         Katalog Alat
-
                     </a>
-
                 </li>
 
-                <li class="nav-item">
+                @guest
 
-                    <a class="nav-link fw-semibold"
-                       href="/history">
+<li class="nav-item">
+    <a class="nav-link fw-semibold"
+       href="{{ route('login') }}">
+        Login
+    </a>
+</li>
 
-                        Riwayat Sewa
+@endguest
 
-                    </a>
 
-                </li>
+@auth
 
-                <li class="nav-item">
+<li class="nav-item">
+    <a class="nav-link fw-semibold"
+       href="{{ route('customer.history') }}">
+        Riwayat Sewa
+    </a>
+</li>
 
-                    <a class="nav-link fw-semibold"
-                       href="#">
+<li class="nav-item">
+    <a class="nav-link fw-semibold"
+       href="{{ route('profile.edit') }}">
+        Profil
+    </a>
+</li>
 
-                        Profil
+<li class="nav-item ms-3">
 
-                    </a>
+    <form action="{{ route('logout') }}" method="POST">
+        @csrf
 
-                </li>
+        <button class="btn btn-warning fw-semibold">
+            Logout
+        </button>
 
-                <li class="nav-item ms-3">
+    </form>
 
-                    <a href="/"
-                       class="btn btn-warning fw-semibold">
+</li>
 
-                        Logout
-
-                    </a>
-
-                </li>
+@endauth
 
             </ul>
 
@@ -109,18 +108,18 @@
 
 <!-- Content -->
 
-<div class="container mt-4">
+<main class="container mt-4 flex-grow-1">
 
     @yield('content')
 
-</div>
+</main>
 
-<footer class="bg-dark text-white text-center py-3 mt-5">
+<!-- Footer -->
+
+<footer class="bg-dark text-white text-center py-3">
 
     <p class="mb-0">
-
         © 2026 TREK - Sistem Penyewaan Alat Berat
-
     </p>
 
 </footer>
@@ -128,5 +127,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>

@@ -24,17 +24,17 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-    $request->authenticate();
+        $request->authenticate();
 
-    $request->session()->regenerate();
+        $request->session()->regenerate();
 
-    // Jika admin
-    if (Auth::user()->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    }
+        // Jika admin
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
 
-    // Jika customer
-    return redirect()->route('home');
+        // Jika customer
+        return redirect()->route('home');
     }
 
     /**

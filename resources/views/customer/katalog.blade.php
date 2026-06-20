@@ -1,72 +1,82 @@
-<x-app-layout>
+@extends('layouts.app')
 
-    <div class="max-w-7xl mx-auto py-10">
+@section('content')
 
-        <h1 class="text-3xl font-bold mb-8">
-            Katalog Alat Berat
-        </h1>
+<h1 class="display-5 fw-bold mb-4">
+    Katalog Alat Berat
+</h1>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<form action="{{ route('customer.katalog') }}" method="GET" class="mb-4">
+    <div class="input-group">
+        <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            class="form-control"
+            placeholder="Cari alat berat...">
 
-            @forelse($equipments as $equipment)
+        <button class="btn btn-warning">
+            🔍 Cari
+        </button>
+    </div>
+</form>
 
-                <div class="bg-white rounded-lg shadow p-4">
+<div class="row">
 
-                    @if($equipment->image)
-                        <img
-                            src="{{ asset('storage/' . $equipment->image) }}"
-                            class="w-full h-48 object-cover rounded">
-                    @else
-                        <img
-                            src="https://via.placeholder.com/400x250"
-                            class="w-full h-48 object-cover rounded">
-                    @endif
+@forelse($equipments as $equipment)
 
-                    <div class="mt-4">
+<div class="col-md-4 mb-4">
 
-                        <h2 class="text-xl font-bold">
-                            {{ $equipment->name }}
-                        </h2>
+    <div class="card shadow h-100">
 
-                        <p class="text-gray-600">
-                            {{ $equipment->category->name }}
-                        </p>
+        <img
+            src="{{ asset('images/alat/'.$equipment->image) }}"
+            class="card-img-top"
+            style="height:220px; object-fit:cover;">
 
-                        <p class="text-blue-600 font-bold mt-2">
-                            Rp {{ number_format($equipment->daily_price,0,',','.') }}/hari
-                        </p>
+        <div class="card-body">
 
-                        <p class="mt-2">
-                            Status :
-                            <span class="font-semibold">
-                                {{ ucfirst($equipment->status) }}
-                            </span>
-                        </p>
+            <h3>{{ $equipment->name }}</h3>
 
-                        <a
-                            href="{{ route('customer.detail', $equipment->id) }}"
-                            class="inline-block mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+            <p>
+                <strong>Kategori :</strong>
+                {{ optional($equipment->category)->name }}
+            </p>
 
-                            Lihat Detail
+            <p>
+                <strong>Harga :</strong>
+                Rp {{ number_format($equipment->daily_price,0,',','.') }}/hari
+            </p>
 
-                        </a>
+            @if($equipment->status=='available')
+                <span class="badge bg-success">Tersedia</span>
+            @elseif($equipment->status=='maintenance')
+                <span class="badge bg-warning text-dark">Maintenance</span>
+            @else
+                <span class="badge bg-danger">Disewa</span>
+            @endif
 
-                    </div>
+            <br><br>
 
-                </div>
-
-            @empty
-
-                <div class="col-span-3 text-center">
-
-                    Belum ada data alat.
-
-                </div>
-
-            @endforelse
+            <a href="{{ route('customer.detail',$equipment->id) }}"
+               class="btn btn-primary">
+                Lihat Detail
+            </a>
 
         </div>
 
     </div>
 
-</x-app-layout>
+</div>
+
+@empty
+
+<div class="alert alert-warning">
+    Alat tidak ditemukan.
+</div>
+
+@endforelse
+
+</div>
+
+@endsection
