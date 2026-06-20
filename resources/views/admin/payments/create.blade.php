@@ -1,135 +1,162 @@
-<x-app-layout>
+@extends('layouts.app')
 
-    <div class="py-12">
+@section('content')
 
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+<div class="container py-5">
 
-            <div class="bg-white p-6 rounded shadow">
+    <div class="row justify-content-center">
 
-                <h1 class="text-3xl font-bold mb-6">
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white fw-bold">
                     Tambah Payment
-                </h1>
+                </div>
 
-                @if ($errors->any())
-                    <div class="bg-red-100 border border-red-400 text-red-700 p-4 rounded mb-4">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>• {{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                <div class="card-body">
 
-                <form action="{{ route('payments.store') }}" method="POST">
+                    @if ($errors->any())
 
-                    @csrf
+                        <div class="alert alert-danger">
 
-                    {{-- Booking --}}
-                    <div class="mb-4">
+                            <ul class="mb-0">
 
-                        <label class="block font-semibold mb-2">
-                            Booking
-                        </label>
+                                @foreach ($errors->all() as $error)
 
-                        <select
-                            name="booking_id"
-                            class="w-full border rounded p-2">
+                                    <li>{{ $error }}</li>
 
-                            <option value="">
-                                Pilih Booking
-                            </option>
+                                @endforeach
 
-                            @foreach($bookings as $booking)
+                            </ul>
 
-                                <option value="{{ $booking->id }}">
-                                    {{ $booking->booking_code }}
-                                    -
-                                    {{ $booking->user->name }}
+                        </div>
+
+                    @endif
+
+                    <form action="{{ route('payments.store') }}"
+                          method="POST">
+
+                        @csrf
+
+                        {{-- Booking --}}
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Booking
+                            </label>
+
+                            <select
+                                name="booking_id"
+                                class="form-select">
+
+                                <option value="">
+                                    Pilih Booking
                                 </option>
 
-                            @endforeach
+                                @foreach($bookings as $booking)
 
-                        </select>
+                                    <option value="{{ $booking->id }}">
 
-                    </div>
+                                        {{ $booking->booking_code }}
+                                        -
+                                        {{ $booking->user->name }}
 
-                    {{-- Metode --}}
-                    <div class="mb-4">
+                                    </option>
 
-                        <label class="block font-semibold mb-2">
-                            Metode Pembayaran
-                        </label>
+                                @endforeach
 
-                        <select
-                            name="payment_method"
-                            class="w-full border rounded p-2">
+                            </select>
 
-                            <option value="Transfer Bank">
-                                Transfer Bank
-                            </option>
+                        </div>
 
-                            <option value="Cash">
-                                Cash
-                            </option>
+                        {{-- Metode Pembayaran --}}
+                        <div class="mb-3">
 
-                            <option value="QRIS">
-                                QRIS
-                            </option>
+                            <label class="form-label">
+                                Metode Pembayaran
+                            </label>
 
-                        </select>
+                            <select
+                                name="payment_method"
+                                class="form-select">
 
-                    </div>
+                                <option value="Transfer Bank">
+                                    Transfer Bank
+                                </option>
 
-                    {{-- Jumlah --}}
-                    <div class="mb-4">
+                                <option value="Cash">
+                                    Cash
+                                </option>
 
-                        <label class="block font-semibold mb-2">
-                            Jumlah Pembayaran
-                        </label>
+                                <option value="QRIS">
+                                    QRIS
+                                </option>
 
-                        <input
-                            type="number"
-                            name="amount"
-                            class="w-full border rounded p-2">
+                            </select>
 
-                    </div>
+                        </div>
 
-                    {{-- Status --}}
-                    <div class="mb-4">
+                        {{-- Jumlah Pembayaran --}}
+                        <div class="mb-3">
 
-                        <label class="block font-semibold mb-2">
-                            Status
-                        </label>
+                            <label class="form-label">
+                                Jumlah Pembayaran
+                            </label>
 
-                        <select
-                            name="status"
-                            class="w-full border rounded p-2">
+                            <input
+                                type="number"
+                                name="amount"
+                                class="form-control"
+                                placeholder="Masukkan jumlah pembayaran">
 
-                            <option value="pending">
-                                Pending
-                            </option>
+                        </div>
 
-                            <option value="paid">
-                                Paid
-                            </option>
+                        {{-- Status --}}
+                        <div class="mb-4">
 
-                            <option value="failed">
-                                Failed
-                            </option>
+                            <label class="form-label">
+                                Status
+                            </label>
 
-                        </select>
+                            <select
+                                name="status"
+                                class="form-select">
 
-                    </div>
+                                <option value="pending">
+                                    Pending
+                                </option>
 
-                    <button
-                        type="submit"
-                        class="bg-blue-600 text-white px-5 py-2 rounded">
+                                <option value="paid">
+                                    Paid
+                                </option>
 
-                        Simpan Payment
+                                <option value="failed">
+                                    Failed
+                                </option>
 
-                    </button>
+                            </select>
 
-                </form>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            Simpan Payment
+
+                        </button>
+
+                        <a href="{{ route('payments.index') }}"
+                           class="btn btn-secondary">
+
+                            Kembali
+
+                        </a>
+
+                    </form>
+
+                </div>
 
             </div>
 
@@ -137,4 +164,6 @@
 
     </div>
 
-</x-app-layout>
+</div>
+
+@endsection

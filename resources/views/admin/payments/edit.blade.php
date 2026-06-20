@@ -1,106 +1,142 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+@extends('layouts.app')
 
-            <div class="bg-white p-6 rounded shadow">
+@section('content')
 
-                <h2 class="text-2xl font-bold mb-6">
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-warning fw-bold">
                     Edit Payment
-                </h2>
+                </div>
 
-                <form action="{{ route('payments.update', $payment->id) }}" method="POST">
+                <div class="card-body">
 
-                    @csrf
-                    @method('PUT')
+                    <form action="{{ route('payments.update', $payment->id) }}"
+                          method="POST">
 
-                    <div class="mb-4">
-                        <label class="block mb-2 font-semibold">
-                            Booking
-                        </label>
+                        @csrf
+                        @method('PUT')
 
-                        <input
-                            type="text"
-                            class="w-full border rounded p-2 bg-gray-100"
-                            value="{{ $payment->booking->booking_code }}"
-                            readonly>
-                    </div>
+                        {{-- Booking --}}
+                        <div class="mb-3">
 
-                    <div class="mb-4">
-                        <label class="block mb-2 font-semibold">
-                            Metode Pembayaran
-                        </label>
+                            <label class="form-label">
+                                Booking
+                            </label>
 
-                        <select
-                            name="payment_method"
-                            class="w-full border rounded p-2">
+                            <input
+                                type="text"
+                                class="form-control bg-light"
+                                value="{{ $payment->booking->booking_code }}"
+                                readonly>
 
-                            <option value="Transfer Bank"
-                                {{ $payment->payment_method=='Transfer Bank' ? 'selected' : '' }}>
-                                Transfer Bank
-                            </option>
+                        </div>
 
-                            <option value="Cash"
-                                {{ $payment->payment_method=='Cash' ? 'selected' : '' }}>
-                                Cash
-                            </option>
+                        {{-- Metode Pembayaran --}}
+                        <div class="mb-3">
 
-                            <option value="E-Wallet"
-                                {{ $payment->payment_method=='E-Wallet' ? 'selected' : '' }}>
-                                E-Wallet
-                            </option>
+                            <label class="form-label">
+                                Metode Pembayaran
+                            </label>
 
-                        </select>
-                    </div>
+                            <select
+                                name="payment_method"
+                                class="form-select">
 
-                    <div class="mb-4">
-                        <label class="block mb-2 font-semibold">
-                            Jumlah Pembayaran
-                        </label>
+                                <option value="Transfer Bank"
+                                    {{ $payment->payment_method == 'Transfer Bank' ? 'selected' : '' }}>
+                                    Transfer Bank
+                                </option>
 
-                        <input
-                            type="number"
-                            name="amount"
-                            class="w-full border rounded p-2"
-                            value="{{ $payment->amount }}">
-                    </div>
+                                <option value="Cash"
+                                    {{ $payment->payment_method == 'Cash' ? 'selected' : '' }}>
+                                    Cash
+                                </option>
 
-                    <div class="mb-4">
-                        <label class="block mb-2 font-semibold">
-                            Status
-                        </label>
+                                <option value="E-Wallet"
+                                    {{ $payment->payment_method == 'E-Wallet' ? 'selected' : '' }}>
+                                    E-Wallet
+                                </option>
 
-                        <select
-                            name="status"
-                            class="w-full border rounded p-2">
+                            </select>
 
-                            <option value="pending"
-                                {{ $payment->status=='pending' ? 'selected' : '' }}>
-                                Pending
-                            </option>
+                        </div>
 
-                            <option value="paid"
-                                {{ $payment->status=='paid' ? 'selected' : '' }}>
-                                Paid
-                            </option>
+                        {{-- Jumlah Pembayaran --}}
+                        <div class="mb-3">
 
-                            <option value="failed"
-                                {{ $payment->status=='failed' ? 'selected' : '' }}>
-                                Failed
-                            </option>
+                            <label class="form-label">
+                                Jumlah Pembayaran
+                            </label>
 
-                        </select>
-                    </div>
+                            <input
+                                type="number"
+                                name="amount"
+                                class="form-control"
+                                value="{{ $payment->amount }}">
 
-                    <button
-                        type="submit"
-                        class="bg-blue-600 text-white px-5 py-2 rounded">
-                        Update Payment
-                    </button>
+                        </div>
 
-                </form>
+                        {{-- Status --}}
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Status
+                            </label>
+
+                            <select
+                                name="status"
+                                class="form-select">
+
+                                <option value="pending"
+                                    {{ $payment->status == 'pending' ? 'selected' : '' }}>
+                                    Pending
+                                </option>
+
+                                <option value="paid"
+                                    {{ $payment->status == 'paid' ? 'selected' : '' }}>
+                                    Paid
+                                </option>
+
+                                <option value="failed"
+                                    {{ $payment->status == 'failed' ? 'selected' : '' }}>
+                                    Failed
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning">
+
+                            Update Payment
+
+                        </button>
+
+                        <a href="{{ route('payments.index') }}"
+                           class="btn btn-secondary">
+
+                            Kembali
+
+                        </a>
+
+                    </form>
+
+                </div>
 
             </div>
 
         </div>
+
     </div>
-</x-app-layout>
+
+</div>
+
+@endsection

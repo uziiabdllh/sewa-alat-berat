@@ -41,62 +41,106 @@
 
             <ul class="navbar-nav ms-auto align-items-center">
 
-                <li class="nav-item">
-                    <a class="nav-link fw-semibold"
-                       href="{{ route('home') }}">
-                        Home
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link fw-semibold"
-                       href="{{ route('customer.katalog') }}">
-                        Katalog Alat
-                    </a>
-                </li>
-
                 @guest
 
-<li class="nav-item">
-    <a class="nav-link fw-semibold"
-       href="{{ route('login') }}">
-        Login
-    </a>
-</li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold"
+                        href="{{ route('login') }}">
+                            Login
+                        </a>
+                    </li>
 
-@endguest
+                @endguest
 
 
-@auth
+                @auth
 
-<li class="nav-item">
-    <a class="nav-link fw-semibold"
-       href="{{ route('customer.history') }}">
-        Riwayat Sewa
-    </a>
-</li>
+                    {{-- NAVBAR ADMIN --}}
+                    @if(auth()->user()->role == 'admin')
 
-<li class="nav-item">
-    <a class="nav-link fw-semibold"
-       href="{{ route('profile.edit') }}">
-        Profil
-    </a>
-</li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold"
+                            href="{{ route('admin.dashboard') }}">
+                                Dashboard
+                            </a>
+                        </li>
 
-<li class="nav-item ms-3">
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold"
+                            href="{{ route('categories.index') }}">
+                                Kategori 
+                            </a>
+                        </li>
 
-    <form action="{{ route('logout') }}" method="POST">
-        @csrf
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold"
+                            href="{{ route('equipments.index') }}">
+                                Katalog Alat
+                            </a>
+                        </li>
 
-        <button class="btn btn-warning fw-semibold">
-            Logout
-        </button>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold"
+                            href="{{ route('bookings.index') }}">
+                                Booking
+                            </a>
+                        </li>
 
-    </form>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold"
+                            href="{{ route('payments.index') }}">
+                                Payment
+                            </a>
+                        </li>
 
-</li>
+                    @else
 
-@endauth
+                        {{-- NAVBAR CUSTOMER --}}
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold"
+                            href="{{ route('home') }}">
+                                Home
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold"
+                            href="{{ route('customer.katalog') }}">
+                                Katalog Alat
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold"
+                            href="{{ route('customer.history') }}">
+                                Riwayat Sewa
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold"
+                            href="{{ route('profile.edit') }}">
+                                Profil
+                            </a>
+                        </li>
+
+                    @endif
+
+                    {{-- Logout --}}
+                    <li class="nav-item ms-3">
+
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+
+                            <button class="btn btn-warning fw-semibold">
+                                Logout
+                            </button>
+
+                        </form>
+
+                    </li>
+
+                @endauth
 
             </ul>
 

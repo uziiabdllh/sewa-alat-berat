@@ -1,38 +1,79 @@
-<x-app-layout>
-    <div class="container mx-auto p-6">
+@extends('layouts.app')
 
-        <h1 class="text-2xl font-bold mb-4">
-            Tambah Kategori
-        </h1>
+@section('content')
 
-        <form action="{{ route('categories.store') }}"
-              method="POST">
+<div class="container py-5">
 
-            @csrf
+    <div class="row justify-content-center">
 
-            <div class="mb-4">
-                <label>Nama Kategori</label>
+        <div class="col-md-8">
 
-                <input
-                    type="text"
-                    name="name"
-                    class="border w-full p-2">
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white fw-bold">
+                    Tambah Kategori
+                </div>
+
+                <div class="card-body">
+
+                    <form action="{{ route('categories.store') }}"
+                          method="POST">
+
+                        @csrf
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Nama Kategori
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                class="form-control"
+                                placeholder="Masukkan nama kategori">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Deskripsi
+                            </label>
+
+                            <textarea
+                                name="description"
+                                rows="4"
+                                class="form-control"
+                                placeholder="Masukkan deskripsi kategori"></textarea>
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            Simpan
+
+                        </button>
+
+                        <a href="{{ route('categories.index') }}"
+                           class="btn btn-secondary">
+
+                            Kembali
+
+                        </a>
+
+                    </form>
+
+                </div>
+
             </div>
 
-            <div class="mb-4">
-                <label>Deskripsi</label>
-
-                <textarea
-                    name="description"
-                    class="border w-full p-2"></textarea>
-            </div>
-
-            <button
-                class="bg-blue-500 text-white px-4 py-2 rounded">
-                Simpan
-            </button>
-
-        </form>
+        </div>
 
     </div>
-</x-app-layout>
+
+</div>
+
+@endsection

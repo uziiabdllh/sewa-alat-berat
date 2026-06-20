@@ -22,7 +22,9 @@ class Booking extends Model
         'tax',
         'total',
         'status',
-        'notes'
+        'notes',
+        'quantity',
+        'phone',
     ];
 
     public function user(): BelongsTo

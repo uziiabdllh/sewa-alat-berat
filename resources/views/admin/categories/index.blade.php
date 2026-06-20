@@ -1,88 +1,120 @@
-<x-app-layout>
-    <div class="container mx-auto p-6">
+@extends('layouts.app')
 
-        <div class="flex justify-between mb-4">
-            <h1 class="text-2xl font-bold">
-                Data Kategori
-            </h1>
+@section('content')
 
-            <a href="{{ route('categories.create') }}"
-               class="bg-blue-500 text-white px-4 py-2 rounded">
-                Tambah Kategori
-            </a>
-        </div>
+<div class="container py-5">
 
-        @if(session('success'))
-            <div class="bg-green-200 p-3 mb-4 rounded">
-                {{ session('success') }}
-            </div>
-        @endif
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-        <table class="w-full border">
+        <h1 class="fw-bold">
+            Data Kategori
+        </h1>
 
-            <thead class="bg-gray-200">
-                <tr>
-                    <th class="border p-2">No</th>
-                    <th class="border p-2">Nama</th>
-                    <th class="border p-2">Deskripsi</th>
-                    <th class="border p-2">Aksi</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @forelse($categories as $category)
-
-                <tr>
-                    <td class="border p-2">
-                        {{ $loop->iteration }}
-                    </td>
-
-                    <td class="border p-2">
-                        {{ $category->name }}
-                    </td>
-
-                    <td class="border p-2">
-                        {{ $category->description }}
-                    </td>
-
-                    <td class="border p-2">
-
-                        <a href="{{ route('categories.edit',$category->id) }}"
-                           class="bg-yellow-500 text-white px-3 py-1 rounded">
-                            Edit
-                        </a>
-
-                        <form
-                            action="{{ route('categories.destroy',$category->id) }}"
-                            method="POST"
-                            class="inline">
-
-                            @csrf
-                            @method('DELETE')
-
-                            <button
-                                onclick="return confirm('Hapus data?')"
-                                class="bg-red-500 text-white px-3 py-1 rounded">
-                                Hapus
-                            </button>
-
-                        </form>
-
-                    </td>
-                </tr>
-
-                @empty
-
-                <tr>
-                    <td colspan="4" class="text-center p-4">
-                        Belum ada data
-                    </td>
-                </tr>
-
-                @endforelse
-            </tbody>
-
-        </table>
+        <a href="{{ route('categories.create') }}"
+           class="btn btn-primary">
+            Tambah Kategori
+        </a>
 
     </div>
-</x-app-layout>
+
+    @if(session('success'))
+
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+
+    @endif
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            <th width="60">No</th>
+                            <th>Nama</th>
+                            <th>Deskripsi</th>
+                            <th width="180">Aksi</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @forelse($categories as $category)
+
+                        <tr>
+
+                            <td>
+                                {{ $loop->iteration }}
+                            </td>
+
+                            <td>
+                                {{ $category->name }}
+                            </td>
+
+                            <td>
+                                {{ $category->description }}
+                            </td>
+
+                            <td>
+
+                                <a href="{{ route('categories.edit',$category->id) }}"
+                                   class="btn btn-warning btn-sm">
+                                    Edit
+                                </a>
+
+                                <form action="{{ route('categories.destroy',$category->id) }}"
+                                      method="POST"
+                                      class="d-inline">
+
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Hapus data?')">
+
+                                        Hapus
+
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                        @empty
+
+                        <tr>
+
+                            <td colspan="4" class="text-center py-4">
+
+                                Belum ada data
+
+                            </td>
+
+                        </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@endsection

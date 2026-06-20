@@ -62,7 +62,13 @@
 
         <td>{{ $booking->user->name }}</td>
 
-        <td>{{ $booking->equipment->name }}</td>
+        <td>
+                @if($booking->equipment)
+                    {{ $booking->equipment->name }}
+                @else
+                    <span style="color: red;">Alat tidak ditemukan</span>
+                @endif
+            </td>
 
         <td>
             {{ $booking->start_date }}

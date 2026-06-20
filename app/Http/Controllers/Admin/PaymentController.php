@@ -78,6 +78,39 @@ class PaymentController extends Controller
             ->with('success', 'Pembayaran berhasil diupdate.');
     }
 
+    public function updateStatus(Request $request, Payment $payment)
+{
+    // update payment
+    $payment->update([
+
+        'status' => $request->status,
+
+        'paid_at' => $request->status == 'paid'
+            ? now()
+            : null,
+
+    ]);
+
+    // update booking otomatis
+    if ($request->status == 'paid') {
+
+        $payment->booking->update([
+            'status' => 'approved'
+        ]);
+
+    } elseif ($request->status == 'failed') {
+
+        $payment->booking->update([
+            'status' => 'rejected'
+        ]);
+
+    }
+
+    return redirect()
+        ->route('payments.index')
+        ->with('success', 'Status payment berhasil diupdate.');
+}
+
     public function destroy(Payment $payment)
     {
         $payment->delete();

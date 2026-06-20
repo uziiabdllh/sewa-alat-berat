@@ -1,38 +1,59 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+@extends('layouts.app')
 
-            <div class="flex justify-between mb-4">
-                <h1 class="text-3xl font-bold">
-                    Data Alat Berat
-                </h1>
+@section('content')
 
-                <a href="{{ route('equipments.create') }}"
-                   class="bg-blue-500 text-white px-4 py-2 rounded">
-                    Tambah Alat
-                </a>
-            </div>
+<div class="container py-5">
 
-            @if(session('success'))
-                <div class="bg-green-200 p-3 mb-4 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
+    <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <div class="bg-white shadow rounded">
-                <table class="w-full border">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="p-3 border">No</th>
-                            <th class="p-3 border">Kode</th>
-                            <th class="p-3 border">Nama</th>
-                            <th class="p-3 border">Kategori</th>
-                            <th class="p-3 border">Brand</th>
-                            <th class="p-3 border">Tahun</th>
-                            <th class="p-3 border">Harga/Hari</th>
-                            <th class="p-3 border">Status</th>
-                            <th class="p-3 border">Aksi</th>
+        <h1 class="fw-bold">
+            Data Alat Berat
+        </h1>
+
+        <a href="{{ route('equipments.create') }}"
+           class="btn btn-primary">
+
+            Tambah Alat
+
+        </a>
+
+    </div>
+
+    @if(session('success'))
+
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+
+    @endif
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th width="60">No</th>
+                            <th>Foto</th>
+                            <th>Kode</th>
+                            <th>Nama</th>
+                            <th>Kategori</th>
+                            <th>Brand</th>
+                            <th>Tahun</th>
+                            <th>Harga/Hari</th>
+                            <th>Stok</th>
+                            <th>Deskripsi</th>
+                            <th>Status</th>
+                            <th width="180">Aksi</th>
+
                         </tr>
+
                     </thead>
 
                     <tbody>
@@ -40,75 +61,129 @@
                     @forelse($equipments as $equipment)
 
                         <tr>
-                            <td class="border p-3">
+
+                            <td>
                                 {{ $loop->iteration }}
                             </td>
+                            <td>
 
-                            <td class="border p-3">
+                                @if($equipment->image)
+
+                                    <img src="{{ asset('images/alat/'.$equipment->image) }}"
+                                        width="80"
+                                        class="rounded">
+
+                                @endif
+
+                            </td>
+                            <td>
                                 {{ $equipment->code }}
                             </td>
 
-                            <td class="border p-3">
+                            <td>
                                 {{ $equipment->name }}
                             </td>
 
-                            <td class="border p-3">
+                            <td>
                                 {{ $equipment->category->name ?? '-' }}
                             </td>
 
-                            <td class="border p-3">
+                            <td>
                                 {{ $equipment->brand }}
                             </td>
 
-                            <td class="border p-3">
+                            <td>
                                 {{ $equipment->year }}
                             </td>
 
-                            <td class="border p-3">
-                                Rp {{ number_format($equipment->daily_price) }}
+                            <td>
+                                Rp {{ number_format($equipment->daily_price,0,',','.') }}
+                            </td>
+                            <td>
+                                {{ $equipment->stok }}
+                            </td>
+                            <td>
+                                {{ $equipment->description }}
+                            </td>
+                            <td>
+
+                                @if($equipment->status == 'available')
+
+                                    <span class="badge bg-success">
+                                        Available
+                                    </span>
+
+                                @elseif($equipment->status == 'rented')
+
+                                    <span class="badge bg-warning text-dark">
+                                        Rented
+                                    </span>
+
+                                @else
+
+                                    <span class="badge bg-danger">
+                                        Maintenance
+                                    </span>
+
+                                @endif
+
                             </td>
 
-                            <td class="border p-3">
-                                {{ $equipment->status }}
-                            </td>
+                            <td>
 
-                            <td class="border p-3">
                                 <a href="{{ route('equipments.edit', $equipment->id) }}"
-                                   class="bg-yellow-500 text-white px-3 py-1 rounded">
+                                   class="btn btn-warning btn-sm">
+
                                     Edit
+
                                 </a>
 
                                 <form action="{{ route('equipments.destroy', $equipment->id) }}"
                                       method="POST"
-                                      class="inline">
+                                      class="d-inline">
 
                                     @csrf
                                     @method('DELETE')
 
                                     <button
-                                        onclick="return confirm('Hapus data?')"
-                                        class="bg-red-500 text-white px-3 py-1 rounded">
+                                        type="submit"
+                                        class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Hapus data?')">
+
                                         Hapus
+
                                     </button>
 
                                 </form>
+
                             </td>
+
                         </tr>
 
                     @empty
 
                         <tr>
-                            <td colspan="9" class="text-center p-4">
+
+                            <td colspan="12" class="text-center py-4">
+
                                 Belum ada data alat
+
                             </td>
+
                         </tr>
 
                     @endforelse
 
                     </tbody>
+
                 </table>
+
             </div>
 
         </div>
+
     </div>
-</x-app-layout>
+
+</div>
+
+@endsection

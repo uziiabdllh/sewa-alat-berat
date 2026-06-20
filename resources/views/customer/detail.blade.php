@@ -6,150 +6,289 @@
 
     <div class="row g-5 align-items-start">
 
-        {{-- Gambar --}}
+        {{-- IMAGE --}}
         <div class="col-lg-7">
 
-            @if($equipment->image)
+            <div class="position-relative">
 
-<img src="{{ asset('images/alat/' . $equipment->image) }}"
-     class="img-fluid rounded shadow"
-     style="width:100%; height:500px; object-fit:cover;">
+                @if($equipment->image)
 
-@else
+                    <img src="{{ asset('images/alat/' . $equipment->image) }}"
+                         class="img-fluid rounded-4 shadow-lg border"
+                         style="width:100%; height:550px; object-fit:cover;">
 
-<img src="https://via.placeholder.com/800x500"
-     class="img-fluid rounded shadow"
-     style="width:100%; height:500px; object-fit:cover;">
+                @else
 
-@endif
+                    <img src="https://via.placeholder.com/800x500"
+                         class="img-fluid rounded-4 shadow-lg border"
+                         style="width:100%; height:550px; object-fit:cover;">
+
+                @endif
+
+                {{-- BADGE STATUS --}}
+                <div class="position-absolute top-0 end-0 m-4">
+
+                    @if($equipment->status == 'available')
+
+                        <span class="badge bg-success px-4 py-3 fs-6 shadow">
+
+                            ● Tersedia
+
+                        </span>
+
+                    @elseif($equipment->status == 'rented')
+
+                        <span class="badge bg-danger px-4 py-3 fs-6 shadow">
+
+                            ● Sedang Disewa
+
+                        </span>
+
+                    @else
+
+                        <span class="badge bg-warning text-dark px-4 py-3 fs-6 shadow">
+
+                            ● Maintenance
+
+                        </span>
+
+                    @endif
+
+                </div>
+
+            </div>
 
         </div>
 
-        {{-- Informasi --}}
+        {{-- CONTENT --}}
         <div class="col-lg-5">
 
-            <h1 class="fw-bold mb-2">
-                {{ $equipment->name }}
-            </h1>
+            {{-- TITLE --}}
+            <div class="mb-4">
 
-            <p class="text-muted mb-3">
-                ⭐⭐⭐⭐⭐ (4.9) • 120+ Penyewaan
-            </p>
+                <p class="text-uppercase text-warning fw-bold mb-2">
 
-            <h2 class="text-warning fw-bold mb-4">
-                Rp {{ number_format($equipment->daily_price,0,',','.') }}
-                <small class="fs-5 text-dark">/ Hari</small>
-            </h2>
+                    Heavy Equipment
 
-            {{-- Status --}}
-            @if($equipment->status == 'available')
+                </p>
 
-                <span class="badge bg-success fs-6 px-3 py-2 mb-4">
-                    Tersedia
-                </span>
+                <h1 class="fw-bold display-6 mb-3">
 
-            @elseif($equipment->status == 'rented')
+                    {{ $equipment->name }}
 
-                <span class="badge bg-danger fs-6 px-3 py-2 mb-4">
-                    Sedang Disewa
-                </span>
+                </h1>
 
-            @else
+                <div class="d-flex align-items-center gap-2 text-muted">
 
-                <span class="badge bg-warning text-dark fs-6 px-3 py-2 mb-4">
-                    Maintenance
-                </span>
+                    <span class="text-warning fs-5">
+                        ★★★★★
+                    </span>
 
-            @endif
+                    <span>
+                        4.9 Rating • 120+ Penyewaan
+                    </span>
 
-            <hr>
-
-            <div class="row">
-
-                <div class="col-6 mb-3">
-                    <strong>Kategori</strong><br>
-                    {{ optional($equipment->category)->name }}
-                </div>
-
-                <div class="col-6 mb-3">
-                    <strong>Kode Alat</strong><br>
-                    EX{{ str_pad($equipment->id,3,'0',STR_PAD_LEFT) }}
-                </div>
-
-                <div class="col-6 mb-3">
-                    <strong>Minimal Sewa</strong><br>
-                    1 Hari
-                </div>
-
-                <div class="col-6 mb-3">
-                    <strong>Lokasi</strong><br>
-                    Gudang TREK
                 </div>
 
             </div>
 
-            <hr>
+            {{-- PRICE --}}
+            <div class="bg-light rounded-4 p-4 mb-4 border">
 
-            <h5 class="fw-bold">
-                Deskripsi
-            </h5>
+                <small class="text-muted d-block mb-1">
 
-            <p class="text-muted">
+                    Harga Sewa
 
-                {{ $equipment->description }}
+                </small>
 
-            </p>
+                <h2 class="fw-bold text-warning mb-0">
 
-            <div class="alert alert-light border">
+                    Rp {{ number_format($equipment->daily_price,0,',','.') }}
 
-                <h6 class="fw-bold mb-3">
+                    <span class="fs-5 text-dark fw-normal">
+                        / Hari
+                    </span>
+
+                </h2>
+
+            </div>
+
+            {{-- INFO --}}
+            <div class="row g-3 mb-4">
+
+                <div class="col-6">
+
+                    <div class="border rounded-4 p-3 h-100">
+
+                        <small class="text-muted d-block">
+
+                            Kategori
+
+                        </small>
+
+                        <strong>
+
+                            {{ optional($equipment->category)->name }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+
+                    <div class="border rounded-4 p-3 h-100">
+
+                        <small class="text-muted d-block">
+
+                            Kode Alat
+
+                        </small>
+
+                        <strong>
+
+                            EX{{ str_pad($equipment->id,3,'0',STR_PAD_LEFT) }}
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+
+                    <div class="border rounded-4 p-3 h-100">
+
+                        <small class="text-muted d-block">
+
+                            Minimal Sewa
+
+                        </small>
+
+                        <strong>
+
+                            1 Hari
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="col-6">
+
+                    <div class="border rounded-4 p-3 h-100">
+
+                        <small class="text-muted d-block">
+
+                            Lokasi
+
+                        </small>
+
+                        <strong>
+
+                            Gudang TREK
+
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {{-- DESCRIPTION --}}
+            <div class="mb-4">
+
+                <h5 class="fw-bold mb-3">
+
+                    Deskripsi
+
+                </h5>
+
+                <p class="text-muted lh-lg">
+
+                    {{ $equipment->description }}
+
+                </p>
+
+            </div>
+
+            {{-- FACILITY --}}
+            <div class="bg-light border rounded-4 p-4 mb-4">
+
+                <h5 class="fw-bold mb-3">
+
                     Fasilitas
-                </h6>
 
-                ✅ Operator tersedia (Opsional)<br>
-                ✅ Kondisi alat terawat<br>
-                ✅ Siap digunakan setiap hari<br>
-                ✅ Support proyek konstruksi
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-12 mb-2">
+                        ✅ Operator tersedia (Opsional)
+                    </div>
+
+                    <div class="col-12 mb-2">
+                        ✅ Kondisi alat terawat
+                    </div>
+
+                    <div class="col-12 mb-2">
+                        ✅ Siap digunakan setiap hari
+                    </div>
+
+                    <div class="col-12">
+                        ✅ Support proyek konstruksi
+                    </div>
+
+                </div>
 
             </div>
 
-            {{-- Tombol --}}
-            @if($equipment->status == 'available')
+            {{-- BUTTON --}}
+            <div class="d-grid gap-3">
 
-                @auth
+                @if($equipment->status == 'available')
 
-<a href="{{ route('customer.booking', ['equipment_id' => $equipment->id]) }}"
-   class="btn btn-warning btn-lg w-100 mb-3">
-    Sewa Sekarang
-</a>
+                    @auth
 
-@else
+                        <a href="{{ route('customer.booking', ['equipment_id' => $equipment->id]) }}"
+                           class="btn btn-warning btn-lg fw-bold rounded-pill shadow-sm py-3">
 
-<a href="{{ route('login') }}"
-   class="btn btn-warning btn-lg w-100 mb-3">
+                            🚜 Sewa Sekarang
 
-    Sewa Sekarang
+                        </a>
 
-</a>
+                    @else
 
-@endauth
+                        <a href="{{ route('login') }}"
+                           class="btn btn-warning btn-lg fw-bold rounded-pill shadow-sm py-3">
 
-            @else
+                            Login untuk Menyewa
 
-                <button class="btn btn-secondary btn-lg w-100 mb-3" disabled>
+                        </a>
 
-                    Tidak Tersedia
+                    @endauth
 
-                </button>
+                @else
 
-            @endif
+                    <button class="btn btn-secondary btn-lg rounded-pill py-3" disabled>
 
-            <a href="{{ route('customer.katalog') }}"
-               class="btn btn-outline-dark w-100">
+                        Tidak Tersedia
 
-                ← Kembali ke Katalog
+                    </button>
 
-            </a>
+                @endif
+
+                <a href="{{ route('customer.katalog') }}"
+                   class="btn btn-outline-dark rounded-pill py-3">
+
+                    ← Kembali ke Katalog
+
+                </a>
+
+            </div>
 
         </div>
 

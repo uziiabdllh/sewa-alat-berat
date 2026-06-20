@@ -78,7 +78,10 @@ class BookingController extends Controller
 
     public function show(string $id)
     {
-        //
+        $booking = Booking::with(['user', 'equipment', 'payment'])
+            ->findOrFail($id);
+
+        return view('admin.bookings.show', compact('booking'));
     }
 
     public function edit(string $id)

@@ -50,6 +50,9 @@ Route::view('/booking', 'customer.booking')
 Route::post('/booking', [BookingController1::class, 'store'])
     ->name('customer.booking.store');
 
+    Route::get('/booking/{id}', [App\Http\Controllers\Frontend\BookingController1::class, 'show'])
+    ->name('customer.booking.detail');
+
 Route::view('/riwayat', 'customer.riwayat')
     ->name('customer.riwayat');
 
@@ -106,6 +109,10 @@ Route::middleware(['auth', 'admin'])
             'reports/payments',
             [ReportController::class, 'payments']
         )->name('reports.payments');
+        Route::put(
+            '/payments/{payment}/status',
+            [PaymentController::class, 'updateStatus']
+        )->name('payments.updateStatus');
     });
 
 

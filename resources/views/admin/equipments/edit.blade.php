@@ -1,135 +1,234 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+@extends('layouts.app')
 
-            <div class="bg-white p-6 rounded shadow">
+@section('content')
 
-                <h1 class="text-2xl font-bold mb-6">
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-warning fw-bold">
                     Edit Alat Berat
-                </h1>
+                </div>
 
-                <form action="{{ route('equipments.update', $equipment->id) }}" method="POST">
+                <div class="card-body">
 
-                    @csrf
-                    @method('PUT')
+                    <form action="{{ route('equipments.update', $equipment->id) }}"
+                    method="POST"
+                    enctype="multipart/form-data">
 
-                    <div class="mb-4">
-                        <label>Kategori</label>
+                        @csrf
+                        @method('PUT')
 
-                        <select
-                            name="category_id"
-                            class="w-full border rounded p-2">
+                        {{-- Kategori --}}
+                        <div class="mb-3">
 
-                            @foreach($categories as $category)
+                            <label class="form-label">
+                                Kategori
+                            </label>
 
-                                <option
-                                    value="{{ $category->id }}"
-                                    {{ $equipment->category_id == $category->id ? 'selected' : '' }}>
+                            <select
+                                name="category_id"
+                                class="form-select">
 
-                                    {{ $category->name }}
+                                @foreach($categories as $category)
 
+                                    <option
+                                        value="{{ $category->id }}"
+                                        {{ $equipment->category_id == $category->id ? 'selected' : '' }}>
+
+                                        {{ $category->name }}
+
+                                    </option>
+
+                                @endforeach
+
+                            </select>
+
+                        </div>
+
+                        {{-- Kode --}}
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Kode Alat
+                            </label>
+
+                            <input
+                                type="text"
+                                name="code"
+                                value="{{ $equipment->code }}"
+                                class="form-control">
+
+                        </div>
+
+                        {{-- Nama --}}
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Nama Alat
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                value="{{ $equipment->name }}"
+                                class="form-control">
+
+                        </div>
+
+                        {{-- Brand --}}
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Brand
+                            </label>
+
+                            <input
+                                type="text"
+                                name="brand"
+                                value="{{ $equipment->brand }}"
+                                class="form-control">
+
+                        </div>
+
+                        {{-- Tahun --}}
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Tahun
+                            </label>
+
+                            <input
+                                type="number"
+                                name="year"
+                                value="{{ $equipment->year }}"
+                                class="form-control">
+
+                        </div>
+
+                        {{-- Harga --}}
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Harga Per Hari
+                            </label>
+
+                            <input
+                                type="number"
+                                name="daily_price"
+                                value="{{ $equipment->daily_price }}"
+                                class="form-control">
+
+                        </div>
+
+                        {{-- Status --}}
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Status
+                            </label>
+
+                            <select
+                                name="status"
+                                class="form-select">
+
+                                <option value="available"
+                                    {{ $equipment->status == 'available' ? 'selected' : '' }}>
+                                    Available
                                 </option>
 
-                            @endforeach
+                                <option value="rented"
+                                    {{ $equipment->status == 'rented' ? 'selected' : '' }}>
+                                    Rented
+                                </option>
 
-                        </select>
-                    </div>
+                                <option value="maintenance"
+                                    {{ $equipment->status == 'maintenance' ? 'selected' : '' }}>
+                                    Maintenance
+                                </option>
 
-                    <div class="mb-4">
-                        <label>Kode Alat</label>
+                            </select>
 
-                        <input
-                            type="text"
-                            name="code"
-                            value="{{ $equipment->code }}"
-                            class="w-full border rounded p-2">
-                    </div>
+                        </div>
+                        <div class="mb-3">
 
-                    <div class="mb-4">
-                        <label>Nama Alat</label>
+                            <label class="form-label">
+                                Stok
+                            </label>
 
-                        <input
-                            type="text"
-                            name="name"
-                            value="{{ $equipment->name }}"
-                            class="w-full border rounded p-2">
-                    </div>
+                            <input
+                                type="number"
+                                name="stok"
+                                value="{{ $equipment->stok }}"
+                                class="form-control">
 
-                    <div class="mb-4">
-                        <label>Brand</label>
+                        </div>
 
-                        <input
-                            type="text"
-                            name="brand"
-                            value="{{ $equipment->brand }}"
-                            class="w-full border rounded p-2">
-                    </div>
+                        <div class="mb-3">
 
-                    <div class="mb-4">
-                        <label>Tahun</label>
+                            <label class="form-label">
+                                Foto Alat
+                            </label>
 
-                        <input
-                            type="number"
-                            name="year"
-                            value="{{ $equipment->year }}"
-                            class="w-full border rounded p-2">
-                    </div>
+                            <input
+                                type="file"
+                                name="image"
+                                class="form-control">
 
-                    <div class="mb-4">
-                        <label>Harga Per Hari</label>
+                        </div>
 
-                        <input
-                            type="number"
-                            name="daily_price"
-                            value="{{ $equipment->daily_price }}"
-                            class="w-full border rounded p-2">
-                    </div>
+                        @if($equipment->image)
 
-                    <div class="mb-4">
-                        <label>Status</label>
+                            <img src="{{ asset('images/alat/'.$equipment->image) }}"
+                                width="120"
+                                class="mt-2 rounded">
 
-                        <select
-                            name="status"
-                            class="w-full border rounded p-2">
+                        @endif
 
-                            <option value="available"
-                                {{ $equipment->status == 'available' ? 'selected' : '' }}>
-                                Available
-                            </option>
+                        {{-- Deskripsi --}}
+                        <div class="mb-4">
 
-                            <option value="rented"
-                                {{ $equipment->status == 'rented' ? 'selected' : '' }}>
-                                Rented
-                            </option>
+                            <label class="form-label">
+                                Deskripsi
+                            </label>
 
-                            <option value="maintenance"
-                                {{ $equipment->status == 'maintenance' ? 'selected' : '' }}>
-                                Maintenance
-                            </option>
+                            <textarea
+                                name="description"
+                                rows="4"
+                                class="form-control">{{ $equipment->description }}</textarea>
 
-                        </select>
-                    </div>
+                        </div>
 
-                    <div class="mb-4">
-                        <label>Deskripsi</label>
+                        {{-- Button --}}
+                        <button
+                            type="submit"
+                            class="btn btn-warning">
 
-                        <textarea
-                            name="description"
-                            rows="4"
-                            class="w-full border rounded p-2">{{ $equipment->description }}</textarea>
-                    </div>
+                            Update
 
-                    <button
-                        type="submit"
-                        class="bg-blue-500 text-white px-4 py-2 rounded">
+                        </button>
 
-                        Update
-                    </button>
+                        <a href="{{ route('equipments.index') }}"
+                           class="btn btn-secondary">
 
-                </form>
+                            Kembali
+
+                        </a>
+
+                    </form>
+
+                </div>
 
             </div>
 
         </div>
+
     </div>
-</x-app-layout>
+
+</div>
+
+@endsection

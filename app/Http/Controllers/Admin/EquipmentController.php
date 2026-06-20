@@ -35,23 +35,43 @@ class EquipmentController extends Controller
      * Simpan alat baru.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'code' => 'required|unique:equipments,code',
-            'name' => 'required|max:255',
-            'brand' => 'required|max:255',
-            'year' => 'required|digits:4',
-            'daily_price' => 'required|numeric|min:1',
-            'status' => 'required',
-        ]);
+{
+    $request->validate([
+        'category_id' => 'required|exists:categories,id',
+        'code' => 'required|unique:equipments,code',
+        'name' => 'required|max:255',
+        'brand' => 'required|max:255',
+        'year' => 'required|digits:4',
+        'daily_price' => 'required|numeric|min:1',
+        'status' => 'required',
+        'stok' => 'required|integer',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png',
+    ]);
 
-        Equipment::create($request->all());
+    $imageName = null;
 
-        return redirect()
-            ->route('equipments.index')
-            ->with('success', 'Data alat berhasil ditambahkan.');
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time().'.'.$image->getClientOriginalExtension();
+        $image->move(public_path('images/alat'), $imageName);
     }
+
+    Equipment::create([
+        'category_id' => $request->category_id,
+        'code' => $request->code,
+        'name' => $request->name,
+        'brand' => $request->brand,
+        'year' => $request->year,
+        'daily_price' => $request->daily_price,
+        'status' => $request->status,
+        'stok' => $request->stok,
+        'description' => $request->description,
+        'image' => $imageName,
+    ]);
+
+    return redirect()->route('equipments.index')
+        ->with('success', 'Data alat berhasil ditambahkan.');
+}
 
     /**
      * Detail alat.
@@ -81,26 +101,46 @@ class EquipmentController extends Controller
     /**
      * Update alat.
      */
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'code' => 'required|unique:equipments,code,' . $id,
-            'name' => 'required|max:255',
-            'brand' => 'required|max:255',
-            'year' => 'required|digits:4',
-            'daily_price' => 'required|numeric|min:1',
-            'status' => 'required',
-        ]);
+   public function update(Request $request, $id)
+{
+    $request->validate([
+        'category_id' => 'required|exists:categories,id',
+        'code' => 'required|unique:equipments,code,' . $id,
+        'name' => 'required|max:255',
+        'brand' => 'required|max:255',
+        'year' => 'required|digits:4',
+        'daily_price' => 'required|numeric|min:1',
+        'status' => 'required',
+        'stok' => 'required|integer',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png',
+    ]);
 
-        $equipment = Equipment::findOrFail($id);
+    $equipment = Equipment::findOrFail($id);
 
-        $equipment->update($request->all());
+    $imageName = $equipment->image;
 
-        return redirect()
-            ->route('equipments.index')
-            ->with('success', 'Data alat berhasil diperbarui.');
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time().'.'.$image->getClientOriginalExtension();
+        $image->move(public_path('images/alat'), $imageName);
     }
+
+    $equipment->update([
+        'category_id' => $request->category_id,
+        'code' => $request->code,
+        'name' => $request->name,
+        'brand' => $request->brand,
+        'year' => $request->year,
+        'daily_price' => $request->daily_price,
+        'status' => $request->status,
+        'stok' => $request->stok,
+        'description' => $request->description,
+        'image' => $imageName,
+    ]);
+
+    return redirect()->route('equipments.index')
+        ->with('success', 'Data alat berhasil diperbarui.');
+}
 
     /**
      * Hapus alat.

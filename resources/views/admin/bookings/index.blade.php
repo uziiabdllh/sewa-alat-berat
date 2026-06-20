@@ -1,49 +1,85 @@
-<x-app-layout>
+@extends('layouts.app')
 
-    <div class="py-12">
+@section('content')
 
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+<div class="container-fluid py-4">
 
-            <h1 class="text-4xl font-bold mb-6">
-                Data Booking
+    {{-- HEADER --}}
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+
+        <div>
+
+            <h1 class="fw-bold mb-1">
+                📋 Data Booking
             </h1>
 
-            @if(session('success'))
+            <p class="text-muted mb-0">
+                Kelola seluruh data booking penyewaan alat berat.
+            </p>
 
-                <div class="bg-green-200 text-green-800 p-4 rounded mb-4">
-                    {{ session('success') }}
-                </div>
+        </div>
 
-            @endif
+        <a href="{{ route('reports.bookings.pdf') }}"
+           class="btn btn-danger rounded-pill px-4 shadow-sm">
 
-            <a href="{{ route('bookings.create') }}"
-               class="bg-blue-500 text-white px-4 py-2 rounded">
-                Tambah Booking
-            </a>
+            📄 Export PDF
 
-            <div class="mt-6 bg-white shadow rounded p-6">
+        </a>
 
-                <table class="min-w-full border">
+    </div>
 
-                    <thead class="bg-gray-100">
+    {{-- ALERT --}}
+    @if(session('success'))
+
+        <div class="alert alert-success border-0 shadow-sm rounded-4">
+
+            {{ session('success') }}
+
+        </div>
+
+    @endif
+
+    {{-- CARD --}}
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+        {{-- TOP BAR --}}
+        <div class="card-header bg-dark text-white py-3 border-0">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+                <h5 class="mb-0 fw-semibold">
+                    Daftar Booking
+                </h5>
+
+                <span class="badge bg-warning text-dark px-3 py-2">
+
+                    Total :
+                    {{ $bookings->total() }} Booking
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead style="background:#f8f9fa;">
 
                         <tr>
 
-                            <th class="border p-2">No</th>
-
-                            <th class="border p-2">Kode</th>
-
-                            <th class="border p-2">Customer</th>
-
-                            <th class="border p-2">Alat</th>
-
-                            <th class="border p-2">Tanggal</th>
-
-                            <th class="border p-2">Total</th>
-
-                            <th class="border p-2">Status</th>
-
-                            <th class="border p-2">Aksi</th>
+                            <th class="px-4 py-3">#</th>
+                            <th class="py-3">Kode Booking</th>
+                            <th class="py-3">Customer</th>
+                            <th class="py-3">Alat</th>
+                            <th class="py-3">Tanggal Sewa</th>
+                            <th class="py-3">Total</th>
+                            <th class="py-3 text-center">Status</th>
+                            <th class="py-3 text-center">Aksi</th>
 
                         </tr>
 
@@ -55,66 +91,146 @@
 
                         <tr>
 
-                            <td class="border p-2">
-                                {{ $loop->iteration }}
+                            <td class="px-4 fw-semibold">
+
+                                {{ $bookings->firstItem() + $loop->index }}
+
                             </td>
 
-                            <td class="border p-2">
-                                {{ $booking->booking_code }}
+                            {{-- KODE --}}
+                            <td>
+
+                                <div class="fw-bold text-dark">
+
+                                    {{ $booking->booking_code }}
+
+                                </div>
+
+                                <small class="text-muted">
+                                    {{ $booking->created_at->format('d M Y') }}
+                                </small>
+
                             </td>
 
-                            <td class="border p-2">
-                                {{ $booking->user->name }}
+                            {{-- CUSTOMER --}}
+                            <td>
+
+                                <div class="fw-semibold">
+
+                                    {{ $booking->user->name }}
+
+                                </div>
+
+                                <small class="text-muted">
+
+                                    {{ $booking->user->email ?? '-' }}
+
+                                </small>
+
                             </td>
 
-                            <td class="border p-2">
-                                {{ $booking->equipment->name }}
+                            {{-- ALAT --}}
+                            <td>
+
+                                <div class="fw-semibold">
+
+                                    @if($booking->equipment)
+                                    {{ $booking->equipment->name }}
+                                @else
+                                    <span class="text-danger">Alat tidak ditemukan</span>
+                                @endif
+
+                                </div>
+
+                                <small class="text-muted">
+
+                                    Qty :
+                                    {{ $booking->quantity ?? 1 }}
+
+                                </small>
+
                             </td>
 
-                            <td class="border p-2">
-                                {{ $booking->start_date }}
-                                <br>
-                                s/d
-                                <br>
-                                {{ $booking->end_date }}
+                            {{-- TANGGAL --}}
+                            <td>
+
+                                <div class="small text-muted mb-1">
+
+                                    Mulai
+
+                                </div>
+
+                                <div class="fw-semibold">
+
+                                    {{ \Carbon\Carbon::parse($booking->start_date)->format('d M Y') }}
+
+                                </div>
+
+                                <div class="small text-muted mt-2 mb-1">
+
+                                    Selesai
+
+                                </div>
+
+                                <div class="fw-semibold">
+
+                                    {{ \Carbon\Carbon::parse($booking->end_date)->format('d M Y') }}
+
+                                </div>
+
                             </td>
 
-                            <td class="border p-2">
-                                Rp {{ number_format($booking->total,0,',','.') }}
+                            {{-- TOTAL --}}
+                            <td>
+
+                                <div class="fw-bold text-success fs-6">
+
+                                    Rp {{ number_format($booking->total,0,',','.') }}
+
+                                </div>
+
                             </td>
 
-                            <td class="border p-2">
-                                {{ ucfirst($booking->status) }}
+                            {{-- STATUS --}}
+                            <td class="text-center">
+
+                                @if($booking->status == 'approved')
+
+                                    <span class="badge bg-success px-3 py-2 rounded-pill">
+                                        Approved
+                                    </span>
+
+                                @elseif($booking->status == 'pending')
+
+                                    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">
+                                        Pending
+                                    </span>
+
+                                @elseif($booking->status == 'rejected')
+
+                                    <span class="badge bg-danger px-3 py-2 rounded-pill">
+                                        Rejected
+                                    </span>
+
+                                @else
+
+                                    <span class="badge bg-primary px-3 py-2 rounded-pill">
+                                        Completed
+                                    </span>
+
+                                @endif
+
                             </td>
 
-                            <td class="border p-2">
+                            {{-- AKSI --}}
+                            <td class="text-center">
 
-                                <a
-                                    href="{{ route('bookings.edit',$booking->id) }}"
-                                    class="bg-yellow-500 text-white px-3 py-1 rounded">
+                                <a href="{{ route('bookings.show', $booking->id) }}"
+                                   class="btn btn-dark btn-sm rounded-pill px-3">
 
-                                    Edit
+                                    👁 Detail
 
                                 </a>
-
-                                <form
-                                    action="{{ route('bookings.destroy',$booking->id) }}"
-                                    method="POST"
-                                    class="inline">
-
-                                    @csrf
-
-                                    @method('DELETE')
-
-                                    <button
-                                        onclick="return confirm('Hapus booking?')"
-                                        class="bg-red-500 text-white px-3 py-1 rounded">
-
-                                        Hapus
-
-                                    </button>
-
-                                </form>
 
                             </td>
 
@@ -124,9 +240,23 @@
 
                         <tr>
 
-                            <td colspan="8" class="text-center p-4">
+                            <td colspan="8" class="text-center py-5">
 
-                                Belum ada data booking
+                                <img src="https://cdn-icons-png.flaticon.com/512/7486/7486740.png"
+                                     width="90"
+                                     class="mb-3">
+
+                                <h5 class="fw-bold">
+
+                                    Belum Ada Booking
+
+                                </h5>
+
+                                <p class="text-muted mb-0">
+
+                                    Data booking akan muncul di sini.
+
+                                </p>
 
                             </td>
 
@@ -144,4 +274,34 @@
 
     </div>
 
-</x-app-layout>
+    {{-- PAGINATION --}}
+    <div class="mt-4 d-flex justify-content-center">
+
+        {{ $bookings->links() }}
+
+    </div>
+
+</div>
+
+<style>
+
+    body{
+        background: #f4f7fb;
+    }
+
+    .table tbody tr{
+        transition: 0.2s ease;
+    }
+
+    .table tbody tr:hover{
+        background: #fafafa;
+        transform: scale(1.002);
+    }
+
+    .card{
+        border-radius: 20px;
+    }
+
+</style>
+
+@endsection

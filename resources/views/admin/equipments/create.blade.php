@@ -1,124 +1,212 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+@extends('layouts.app')
 
-            <div class="bg-white p-6 rounded shadow">
+@section('content')
 
-                <h1 class="text-2xl font-bold mb-6">
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white fw-bold">
                     Tambah Alat Berat
-                </h1>
+                </div>
 
-                <form action="{{ route('equipments.store') }}" method="POST">
+                <div class="card-body">
 
-                    @csrf
+                    <form action="{{ route('equipments.store') }}"
+                        method="POST"
+                        enctype="multipart/form-data">
 
-                    <div class="mb-4">
-                        <label>Kategori</label>
+                        @csrf
 
-                        <select
-                            name="category_id"
-                            class="w-full border rounded p-2">
+                        <div class="mb-3">
 
-                            <option value="">
-                                Pilih Kategori
-                            </option>
+                            <label class="form-label">
+                                Kategori
+                            </label>
 
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}">
-                                    {{ $category->name }}
+                            <select
+                                name="category_id"
+                                class="form-select">
+
+                                <option value="">
+                                    Pilih Kategori
                                 </option>
-                            @endforeach
 
-                        </select>
-                    </div>
+                                @foreach($categories as $category)
 
-                    <div class="mb-4">
-                        <label>Kode Alat</label>
+                                    <option value="{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </option>
 
-                        <input
-                            type="text"
-                            name="code"
-                            class="w-full border rounded p-2">
-                    </div>
+                                @endforeach
 
-                    <div class="mb-4">
-                        <label>Nama Alat</label>
+                            </select>
 
-                        <input
-                            type="text"
-                            name="name"
-                            class="w-full border rounded p-2">
-                    </div>
+                        </div>
 
-                    <div class="mb-4">
-                        <label>Brand</label>
+                        <div class="mb-3">
 
-                        <input
-                            type="text"
-                            name="brand"
-                            class="w-full border rounded p-2">
-                    </div>
+                            <label class="form-label">
+                                Kode Alat
+                            </label>
 
-                    <div class="mb-4">
-                        <label>Tahun</label>
+                            <input
+                                type="text"
+                                name="code"
+                                class="form-control"
+                                placeholder="Masukkan kode alat">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Nama Alat
+                            </label>
+
+                            <input
+                                type="text"
+                                name="name"
+                                class="form-control"
+                                placeholder="Masukkan nama alat">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Brand
+                            </label>
+
+                            <input
+                                type="text"
+                                name="brand"
+                                class="form-control"
+                                placeholder="Masukkan brand">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Tahun
+                            </label>
+
+                            <input
+                                type="number"
+                                name="year"
+                                class="form-control"
+                                placeholder="Masukkan tahun">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Harga Per Hari
+                            </label>
+
+                            <input
+                                type="number"
+                                name="daily_price"
+                                class="form-control"
+                                placeholder="Masukkan harga">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Status
+                            </label>
+
+                            <select
+                                name="status"
+                                class="form-select">
+
+                                <option value="available">
+                                    Available
+                                </option>
+
+                                <option value="rented">
+                                    Rented
+                                </option>
+
+                                <option value="maintenance">
+                                    Maintenance
+                                </option>
+
+                            </select>
+
+                        </div>
+                        <div class="mb-3">
+
+                        <label class="form-label">
+                            Stok
+                        </label>
 
                         <input
                             type="number"
-                            name="year"
-                            class="w-full border rounded p-2">
+                            name="stok"
+                            class="form-control">
+
                     </div>
 
-                    <div class="mb-4">
-                        <label>Harga Per Hari</label>
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Foto Alat
+                        </label>
 
                         <input
-                            type="number"
-                            name="daily_price"
-                            class="w-full border rounded p-2">
+                            type="file"
+                            name="image"
+                            class="form-control">
+
                     </div>
+                        <div class="mb-3">
 
-                    <div class="mb-4">
-                        <label>Status</label>
+                            <label class="form-label">
+                                Deskripsi
+                            </label>
 
-                        <select
-                            name="status"
-                            class="w-full border rounded p-2">
+                            <textarea
+                                name="description"
+                                rows="4"
+                                class="form-control"
+                                placeholder="Masukkan deskripsi alat"></textarea>
 
-                            <option value="available">
-                                Available
-                            </option>
+                        </div>
 
-                            <option value="rented">
-                                Rented
-                            </option>
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
 
-                            <option value="maintenance">
-                                Maintenance
-                            </option>
+                            Simpan
 
-                        </select>
-                    </div>
+                        </button>
 
-                    <div class="mb-4">
-                        <label>Deskripsi</label>
+                        <a href="{{ route('equipments.index') }}"
+                           class="btn btn-secondary">
 
-                        <textarea
-                            name="description"
-                            rows="4"
-                            class="w-full border rounded p-2"></textarea>
-                    </div>
+                            Kembali
 
-                    <button
-                        type="submit"
-                        class="bg-blue-500 text-white px-4 py-2 rounded">
+                        </a>
 
-                        Simpan
-                    </button>
+                    </form>
 
-                </form>
+                </div>
 
             </div>
 
         </div>
+
     </div>
-</x-app-layout>
+
+</div>
+
+@endsection

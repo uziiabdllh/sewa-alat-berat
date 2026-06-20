@@ -19,6 +19,7 @@ class Equipment extends Model
         'status',
         'image',
         'description',
+        'stok',
     ];
 
     protected $casts = [
