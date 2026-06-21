@@ -161,6 +161,34 @@ class BookingController extends Controller
             ->route('bookings.index')
             ->with('success', 'Booking berhasil diupdate.');
     }
+    public function returnIndex()
+    {
+        $bookings = Booking::with('equipment','user')
+            ->whereNotNull('return_status')
+            ->latest()
+            ->get();
+
+        return view(
+            'admin.returns.index',
+            compact('bookings')
+        );
+    }
+    public function approveReturn($id)
+    {
+        $booking = Booking::with('equipment')->findOrFail($id);
+
+        $booking->return_status = 'returned';
+        $booking->status = 'completed';
+        $booking->save();
+
+    // BALIKIN STOK
+    $equipment = $booking->equipment;
+    $equipment->stok += 1;
+    $equipment->status = 'available';
+    $equipment->save();
+
+    return redirect()->back()->with('success', 'Return disetujui dan stok dikembalikan.');
+    }
 
     public function destroy($id)
     {

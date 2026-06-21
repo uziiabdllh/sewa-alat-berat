@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 
@@ -6,63 +6,85 @@
 
     <div class="row justify-content-center">
 
-        <div class="col-md-8">
+        <div class="col-lg-7">
 
-            <div class="card shadow">
+            {{-- CARD --}}
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
 
-                <div class="card-header bg-primary text-white fw-bold">
-                    Tambah Kategori
+                {{-- HEADER --}}
+                <div class="card-header bg-dark text-white py-4 border-0">
+
+                    <h3 class="fw-bold mb-1">
+                        📦 Tambah Kategori
+                    </h3>
+
+                    <p class="mb-0 text-light opacity-75">
+                        Tambahkan kategori alat berat baru.
+                    </p>
+
                 </div>
 
-                <div class="card-body">
+                {{-- BODY --}}
+                <div class="card-body p-4">
 
                     <form action="{{ route('categories.store') }}"
                           method="POST">
 
                         @csrf
 
-                        <div class="mb-3">
+                        {{-- NAMA --}}
+                        <div class="mb-4">
 
-                            <label class="form-label">
+                            <label class="form-label fw-semibold">
+
                                 Nama Kategori
+
                             </label>
 
                             <input
                                 type="text"
                                 name="name"
-                                class="form-control"
-                                placeholder="Masukkan nama kategori">
+                                class="form-control form-control-lg rounded-3"
+                                placeholder="Contoh : Excavator">
 
                         </div>
 
-                        <div class="mb-3">
+                        {{-- DESKRIPSI --}}
+                        <div class="mb-4">
 
-                            <label class="form-label">
+                            <label class="form-label fw-semibold">
+
                                 Deskripsi
+
                             </label>
 
                             <textarea
                                 name="description"
-                                rows="4"
-                                class="form-control"
-                                placeholder="Masukkan deskripsi kategori"></textarea>
+                                rows="5"
+                                class="form-control rounded-3"
+                                placeholder="Masukkan deskripsi kategori alat berat"></textarea>
 
                         </div>
 
-                        <button
-                            type="submit"
-                            class="btn btn-primary">
+                        {{-- BUTTON --}}
+                        <div class="d-flex gap-2">
 
-                            Simpan
+                            <button
+                                type="submit"
+                                class="btn btn-dark rounded-pill px-4 shadow-sm">
 
-                        </button>
+                                💾 Simpan
 
-                        <a href="{{ route('categories.index') }}"
-                           class="btn btn-secondary">
+                            </button>
 
-                            Kembali
+                            <a href="{{ route('categories.index') }}"
+                               class="btn btn-light border rounded-pill px-4">
 
-                        </a>
+                                ← Kembali
+
+                            </a>
+
+                        </div>
 
                     </form>
 
@@ -75,5 +97,35 @@
     </div>
 
 </div>
+
+<style>
+
+    body{
+        background: #f4f7fb;
+    }
+
+    .card{
+        border-radius: 22px;
+    }
+
+    .form-control{
+        border: 1px solid #e2e8f0;
+        padding: 14px;
+    }
+
+    .form-control:focus{
+        box-shadow: 0 0 0 0.15rem rgba(0,0,0,0.08);
+        border-color: #111827;
+    }
+
+    .btn{
+        transition: 0.2s ease;
+    }
+
+    .btn:hover{
+        transform: translateY(-2px);
+    }
+
+</style>
 
 @endsection

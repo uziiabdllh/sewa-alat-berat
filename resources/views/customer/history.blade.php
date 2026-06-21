@@ -230,14 +230,59 @@
 
                             </div>
 
-                            <div class="mt-4">
+                           <div class="mt-4 d-grid gap-2">
 
                                 <a href="{{ route('customer.booking.detail', $booking->id) }}"
-                                   class="btn btn-dark w-100 rounded-pill">
+                                class="btn btn-dark rounded-pill">
 
                                     Lihat Detail
 
                                 </a>
+
+                                @if(
+                                    $booking->status == 'approved'
+                                    &&
+                                    $booking->return_status != 'pending'
+                                    &&
+                                    $booking->return_status != 'returned'
+                                )
+
+                                    <form action="{{ route('customer.return.request', $booking->id) }}"
+                                        method="POST">
+
+                                        @csrf
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-warning rounded-pill w-100">
+
+                                            Ajukan Pengembalian
+
+                                        </button>
+
+                                    </form>
+
+                                @endif
+
+                                @if($booking->return_status == 'pending')
+
+                                    <button class="btn btn-secondary rounded-pill" disabled>
+
+                                        Menunggu Approval Return
+
+                                    </button>
+
+                                @endif
+
+                                @if($booking->return_status == 'returned')
+
+                                    <button class="btn btn-success rounded-pill" disabled>
+
+                                        Alat Sudah Dikembalikan
+
+                                    </button>
+
+                                @endif
 
                             </div>
 

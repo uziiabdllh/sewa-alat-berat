@@ -178,8 +178,6 @@
                 Katalog Produk
             </a>
             
-            <a href="#">Menjadi Mitra</a>
-
             @if (Route::has('login'))
 
                 @auth

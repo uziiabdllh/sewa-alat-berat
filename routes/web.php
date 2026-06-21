@@ -13,10 +13,12 @@ use App\Http\Controllers\Admin\ReportController;
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\EquipmentController as FrontendEquipmentController;
+use App\Http\Controllers\Frontend\EquipmentController1 as FrontendEquipmentController;
 use App\Http\Controllers\Frontend\BookingController1;
 use App\Http\Controllers\Frontend\PaymentController1;
 use App\Http\Controllers\Frontend\HistoryController;
+use App\Http\Controllers\Frontend\CustomerProfileController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -77,12 +79,17 @@ Route::view('/success', 'customer.success')
 Route::get('/history',
     [HistoryController::class, 'index'])
     ->name('customer.history');
-
+Route::post(
+    '/booking/{id}/return-request',
+    [BookingController1::class, 'requestReturn']
+)->name('customer.return.request');
 
 // ==============================
 // Route Admin
 // ==============================
-
+Route::get('/tes-return', function () {
+    return 'TES BERHASIL';
+})->middleware(['auth', 'admin']);
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->group(function () {
@@ -113,6 +120,11 @@ Route::middleware(['auth', 'admin'])
             '/payments/{payment}/status',
             [PaymentController::class, 'updateStatus']
         )->name('payments.updateStatus');
+        Route::get('/returns', [BookingController::class, 'returnIndex'])
+            ->name('admin.return.index');
+
+        Route::post('/returns/{id}/approve', [BookingController::class, 'approveReturn'])
+            ->name('admin.return.approve');
     });
 
 
@@ -122,16 +134,15 @@ Route::middleware(['auth', 'admin'])
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/profile', [ProfileController::class, 'edit'])
+    Route::get('/profile', [CustomerProfileController::class, 'index'])
+        ->name('profile');
+
+    Route::get('/profile/edit', [CustomerProfileController::class, 'edit'])
         ->name('profile.edit');
 
-    Route::patch('/profile', [ProfileController::class, 'update'])
+    Route::put('/profile/update', [CustomerProfileController::class, 'update'])
         ->name('profile.update');
 
-    Route::delete('/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
-
-    Route::resource('categories', CategoryController::class);
 });
 
 

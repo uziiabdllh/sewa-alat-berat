@@ -154,12 +154,11 @@ $equipment = \App\Models\Equipment::find(request('equipment_id'));
         type="number"
         name="quantity"
         id="quantity"
-        class="form-control text-center"
+        class="form-control text-center fw-bold"
         value="1"
         min="1"
         max="{{ $equipment->stok }}"
-        readonly
-        style="max-width:90px;">
+        style="max-width:110px;">
 
     <button
         type="button"
@@ -170,8 +169,12 @@ $equipment = \App\Models\Equipment::find(request('equipment_id'));
 
 </div>
 
-<small class="text-success mt-2 d-block">
-    Stok tersedia : {{ $equipment->stok }} unit
+<small
+    id="stokWarning"
+    class="text-danger fw-semibold d-none mt-2">
+
+    Quantity melebihi stok tersedia!
+
 </small>
 
                     </div>
@@ -258,11 +261,11 @@ $equipment = \App\Models\Equipment::find(request('equipment_id'));
                                         type="number"
                                         id="operator_quantity"
                                         name="operator_quantity"
-                                        class="form-control text-center"
+                                        class="form-control text-center fw-bold"
                                         value="1"
                                         min="1"
-                                        readonly
-                                        style="max-width:90px;">
+                                        style="max-width:110px;"
+                                    >
 
                                     <button
                                         type="button"
@@ -476,20 +479,29 @@ operatorMinus.addEventListener('click', function(){
 });
 function calculateTotal() {
 
-    let qty = parseInt(quantity.value);
+    let qty = parseInt(quantity.value) || 1;
+
+    const warning = document.getElementById('stokWarning');
 
     // VALIDASI STOK
     if(qty > stok){
 
-        alert(
-            `Stok tidak mencukupi.\n\n` +
-            `Diminta: ${qty}\n` +
-            `Stok tersedia: ${stok}`
-        );
+        warning.classList.remove('d-none');
 
-        quantity.value = stok;
+        quantity.classList.add('is-invalid');
 
-        return;
+    } else {
+
+        warning.classList.add('d-none');
+
+        quantity.classList.remove('is-invalid');
+
+    }
+
+    if(qty < 1){
+
+        qty = 1;
+        quantity.value = 1;
     }
 
     if(startDate.value && endDate.value) {
@@ -499,71 +511,69 @@ function calculateTotal() {
 
         const diffTime = end - start;
 
-        const days = Math.ceil(
-            diffTime / (1000 * 60 * 60 * 24)
-        ) + 1;
+        const days =
+            Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
         if(days > 0){
 
-    document.getElementById('durasi').innerText = days;
+            document.getElementById('durasi').innerText = days;
 
-    document.getElementById('qtyDisplay').innerText = qty;
+            document.getElementById('qtyDisplay').innerText = qty;
 
-    // Biaya sewa alat
-    let biayaSewa =
-        dailyPrice * days * qty;
+            // Biaya sewa
+            let biayaSewa =
+                dailyPrice * days * qty;
 
-    // Biaya operator
-    let biayaOperator = 0;
+            // Operator
+            let biayaOperator = 0;
 
-    if(operatorSwitch.checked){
+            if(operatorSwitch.checked){
 
-        biayaOperator =
-            500000 *
-            days *
-            parseInt(operatorQty.value);
-    }
+                biayaOperator =
+                    500000 *
+                    days *
+                    parseInt(operatorQty.value || 1);
+            }
 
-    // Biaya delivery
-    let biayaDelivery = 0;
+            // Delivery
+            let biayaDelivery = 0;
 
-   if(document.getElementById('delivery_needed').checked){
+            if(document.getElementById('delivery_needed').checked){
 
-    biayaDelivery = 1000000 * qty;
-    }
+                biayaDelivery = 1000000 * qty;
+            }
 
-    // Hitung subtotal
-    let subtotal =
-        biayaSewa +
-        biayaOperator +
-        biayaDelivery;
+            // Subtotal
+            let subtotal =
+                biayaSewa +
+                biayaOperator +
+                biayaDelivery;
 
-    // PPN
-    let tax = subtotal * 0.11;
+            // Pajak
+            let tax = subtotal * 0.11;
 
-    // Total
-    let total = subtotal + tax;
+            // Total
+            let total = subtotal + tax;
 
-    // Tampilkan
-    document.getElementById('sewa').innerText =
-        biayaSewa.toLocaleString('id-ID');
+            // Render
+            document.getElementById('sewa').innerText =
+                biayaSewa.toLocaleString('id-ID');
 
-    document.getElementById('operatorCost').innerText =
-        biayaOperator.toLocaleString('id-ID');
+            document.getElementById('operatorCost').innerText =
+                biayaOperator.toLocaleString('id-ID');
 
-    document.getElementById('deliveryCost').innerText =
-        biayaDelivery.toLocaleString('id-ID');
+            document.getElementById('deliveryCost').innerText =
+                biayaDelivery.toLocaleString('id-ID');
 
-    document.getElementById('subtotal').innerText =
-        subtotal.toLocaleString('id-ID');
+            document.getElementById('subtotal').innerText =
+                subtotal.toLocaleString('id-ID');
 
-    document.getElementById('tax').innerText =
-        Math.round(tax).toLocaleString('id-ID');
+            document.getElementById('tax').innerText =
+                Math.round(tax).toLocaleString('id-ID');
 
-    document.getElementById('total').innerText =
-        Math.round(total).toLocaleString('id-ID');
-
-}
+            document.getElementById('total').innerText =
+                Math.round(total).toLocaleString('id-ID');
+        }
     }
 }
 
@@ -601,6 +611,21 @@ minusBtn.addEventListener('click', () => {
 startDate.addEventListener('change', calculateTotal);
 endDate.addEventListener('change', calculateTotal);
 quantity.addEventListener('input', calculateTotal);
+quantity.addEventListener('blur', function(){
+
+    if(parseInt(quantity.value) > stok){
+
+        quantity.value = stok;
+    }
+
+    if(parseInt(quantity.value) < 1){
+
+        quantity.value = 1;
+    }
+
+    calculateTotal();
+
+});
 
 document.getElementById('operator_needed')
     .addEventListener('change', calculateTotal);

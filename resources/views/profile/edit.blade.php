@@ -1,29 +1,103 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
+@section('content')
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body p-5">
+
+                    <div class="text-center mb-4">
+
+                        <div class="bg-warning rounded-circle d-inline-flex align-items-center justify-content-center"
+                             style="width:100px;height:100px;font-size:40px;">
+
+                            👤
+
+                        </div>
+
+                        <h2 class="fw-bold mt-3">
+                            {{ auth()->user()->name }}
+                        </h2>
+
+                        <span class="badge bg-dark">
+                            {{ ucfirst(auth()->user()->role) }}
+                        </span>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="row gy-4">
+
+                        <div class="col-md-6">
+
+                            <label class="text-muted">
+                                Nama
+                            </label>
+
+                            <h5>{{ auth()->user()->name }}</h5>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="text-muted">
+                                Email
+                            </label>
+
+                            <h5>{{ auth()->user()->email }}</h5>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="text-muted">
+                                Role
+                            </label>
+
+                            <h5>{{ ucfirst(auth()->user()->role) }}</h5>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="text-muted">
+                                Bergabung
+                            </label>
+
+                            <h5>
+                                {{ auth()->user()->created_at->format('d M Y') }}
+                            </h5>
+
+                        </div>
+
+                    </div>
+
+                    <div class="mt-5 text-center">
+
+                        <a href="{{ route('profile.edit') }}"
+                           class="btn btn-warning rounded-pill px-5">
+
+                            Edit Profil
+
+                        </a>
+
+                    </div>
+
                 </div>
+
             </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
-            </div>
         </div>
+
     </div>
-</x-app-layout>
+
+</div>
+
+@endsection

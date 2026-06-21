@@ -2,7 +2,7 @@
 
     <div class="text-center mb-4">
     <h1 class="text-4xl font-bold">
-        🚜 TREK
+        TREK
     </h1>
 </div>
 

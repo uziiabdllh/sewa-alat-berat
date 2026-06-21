@@ -1,57 +1,59 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 
-<div class="container-fluid py-4">
+<div class="container-fluid pt-2 pb-4">
 
-    {{-- HEADER --}}
-    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+    {{-- Header --}}
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
 
-        <div>
+    <div>
 
-            <h1 class="fw-bold mb-1">
-                📊 Dashboard Admin
-            </h1>
+        <h2 class="fw-bold mb-1">
 
-            <p class="text-muted mb-0">
-                Monitoring data penyewaan alat berat secara realtime.
-            </p>
+            Selamat Datang,
+            {{ auth()->user()->name }} 👋
 
-        </div>
+        </h2>
 
-        <div class="bg-white shadow-sm rounded-4 px-4 py-3">
+        <p class="text-muted mb-0">
 
-            <small class="text-muted d-block">
-                Hari Ini
-            </small>
+            Monitoring Sistem Informasi Penyewaan Alat Berat
 
-            <strong>
-                {{ now()->format('d F Y') }}
-            </strong>
-
-        </div>
+        </p>
 
     </div>
 
-    {{-- STATISTIC CARD --}}
-    <div class="row g-4">
+    <div class="text-end">
 
-        {{-- KATEGORI --}}
-        <div class="col-xl-2 col-md-4">
+        <span class="badge bg-primary px-3 py-2 rounded-pill">
 
-            <div class="card stat-card border-0 shadow-sm h-100">
+            {{ now()->format('d F Y') }}
+
+        </span>
+
+    </div>
+
+    </div>
+
+    {{-- Statistik --}}
+    <div class="row g-4 mb-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body">
 
-                    <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex justify-content-between">
 
                         <div>
 
-                            <p class="text-muted mb-2">
-                                Kategori
-                            </p>
+                            <small class="text-muted">
+                                Total Kategori
+                            </small>
 
-                            <h2 class="fw-bold mb-0">
+                            <h2 class="fw-bold mt-2">
 
                                 {{ $totalCategory }}
 
@@ -59,8 +61,10 @@
 
                         </div>
 
-                        <div class="icon-box bg-primary-subtle text-primary">
+                        <div class="fs-1">
+
                             📂
+
                         </div>
 
                     </div>
@@ -71,22 +75,23 @@
 
         </div>
 
-        {{-- ALAT --}}
-        <div class="col-xl-2 col-md-4">
+        <div class="col-xl-3 col-md-6">
 
-            <div class="card stat-card border-0 shadow-sm h-100">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body">
 
-                    <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex justify-content-between">
 
                         <div>
 
-                            <p class="text-muted mb-2">
-                                Alat
-                            </p>
+                            <small class="text-muted">
 
-                            <h2 class="fw-bold mb-0">
+                                Total Alat
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2">
 
                                 {{ $totalEquipment }}
 
@@ -94,8 +99,10 @@
 
                         </div>
 
-                        <div class="icon-box bg-success-subtle text-success">
+                        <div class="fs-1">
+
                             🚜
+
                         </div>
 
                     </div>
@@ -106,22 +113,23 @@
 
         </div>
 
-        {{-- BOOKING --}}
-        <div class="col-xl-2 col-md-4">
+        <div class="col-xl-3 col-md-6">
 
-            <div class="card stat-card border-0 shadow-sm h-100">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body">
 
-                    <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex justify-content-between">
 
                         <div>
 
-                            <p class="text-muted mb-2">
-                                Booking
-                            </p>
+                            <small class="text-muted">
 
-                            <h2 class="fw-bold mb-0">
+                                Total Booking
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2">
 
                                 {{ $totalBooking }}
 
@@ -129,8 +137,10 @@
 
                         </div>
 
-                        <div class="icon-box bg-warning-subtle text-warning">
+                        <div class="fs-1">
+
                             📋
+
                         </div>
 
                     </div>
@@ -141,22 +151,23 @@
 
         </div>
 
-        {{-- PAYMENT --}}
-        <div class="col-xl-2 col-md-4">
+        <div class="col-xl-3 col-md-6">
 
-            <div class="card stat-card border-0 shadow-sm h-100">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
 
                 <div class="card-body">
 
-                    <div class="d-flex justify-content-between align-items-start">
+                    <div class="d-flex justify-content-between">
 
                         <div>
 
-                            <p class="text-muted mb-2">
-                                Payment
-                            </p>
+                            <small class="text-muted">
 
-                            <h2 class="fw-bold mb-0">
+                                Total Payment
+
+                            </small>
+
+                            <h2 class="fw-bold mt-2">
 
                                 {{ $totalPayment }}
 
@@ -164,43 +175,10 @@
 
                         </div>
 
-                        <div class="icon-box bg-info-subtle text-info">
+                        <div class="fs-1">
+
                             💳
-                        </div>
 
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {{-- PENDAPATAN --}}
-        <div class="col-xl-4 col-md-8">
-
-            <div class="card border-0 shadow-sm income-card h-100">
-
-                <div class="card-body">
-
-                    <div class="d-flex justify-content-between align-items-start">
-
-                        <div>
-
-                            <p class="text-light opacity-75 mb-2">
-                                Total Pendapatan
-                            </p>
-
-                            <h2 class="fw-bold text-white mb-0">
-
-                                Rp {{ number_format($totalIncome,0,',','.') }}
-
-                            </h2>
-
-                        </div>
-
-                        <div class="income-icon">
-                            💰
                         </div>
 
                     </div>
@@ -213,115 +191,26 @@
 
     </div>
 
-    {{-- TABLE SECTION --}}
-    <div class="row mt-5">
+    {{-- Statistik Kedua --}}
+    <div class="row g-4 mb-5">
 
-        {{-- BOOKING TERBARU --}}
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-4">
 
-            <div class="card border-0 shadow-sm rounded-4 h-100">
-
-                <div class="card-header bg-white border-0 pt-4 px-4">
-
-                    <div class="d-flex justify-content-between align-items-center">
-
-                        <h5 class="fw-bold mb-0">
-                            📋 Booking Terbaru
-                        </h5>
-
-                        <span class="badge bg-warning text-dark">
-
-                            {{ count($latestBookings) }} Data
-
-                        </span>
-
-                    </div>
-
-                </div>
+            <div class="card border-0 shadow-sm rounded-4">
 
                 <div class="card-body">
 
-                    <div class="table-responsive">
+                    <small class="text-muted">
 
-                        <table class="table align-middle">
+                        Total Pendapatan
 
-                            <thead class="table-light">
+                    </small>
 
-                                <tr>
-                                    <th>Kode</th>
-                                    <th>Customer</th>
-                                    <th>Status</th>
-                                </tr>
+                    <h2 class="fw-bold text-success mt-2">
 
-                            </thead>
+                        Rp {{ number_format($totalIncome,0,',','.') }}
 
-                            <tbody>
-
-                                @forelse($latestBookings as $booking)
-
-                                <tr>
-
-                                    <td>
-
-                                        <strong>
-
-                                            {{ $booking->booking_code }}
-
-                                        </strong>
-
-                                    </td>
-
-                                    <td>
-
-                                        {{ $booking->user?->name ?? 'User telah dihapus' }}
-
-                                    </td>
-
-                                    <td>
-
-                                        @if($booking->status == 'approved')
-
-                                            <span class="badge bg-success rounded-pill px-3">
-                                                Approved
-                                            </span>
-
-                                        @elseif($booking->status == 'pending')
-
-                                            <span class="badge bg-warning text-dark rounded-pill px-3">
-                                                Pending
-                                            </span>
-
-                                        @else
-
-                                            <span class="badge bg-danger rounded-pill px-3">
-                                                Rejected
-                                            </span>
-
-                                        @endif
-
-                                    </td>
-
-                                </tr>
-
-                                @empty
-
-                                <tr>
-
-                                    <td colspan="3" class="text-center text-muted py-4">
-
-                                        Belum ada booking
-
-                                    </td>
-
-                                </tr>
-
-                                @endforelse
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
+                    </h2>
 
                 </div>
 
@@ -329,114 +218,450 @@
 
         </div>
 
-        {{-- ALAT TERBARU --}}
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-4">
 
-            <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card border-0 shadow-sm rounded-4">
 
-                <div class="card-header bg-white border-0 pt-4 px-4">
+                <div class="card-body">
 
-                    <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">
 
-                        <h5 class="fw-bold mb-0">
-                            🚜 Alat Terbaru
-                        </h5>
+                        Booking Pending
 
-                        <span class="badge bg-primary">
+                    </small>
 
-                            {{ count($latestEquipments) }} Data
+                    <h2 class="fw-bold text-warning mt-2">
 
-                        </span>
+                        {{ $pendingBooking }}
 
-                    </div>
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+
+                        Return Pending
+
+                    </small>
+
+                    <h2 class="fw-bold text-danger mt-2">
+
+                        {{ $returnPending }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+   
+    {{-- GRAFIK --}}
+
+    <div class="row g-4">
+
+        {{-- Booking --}}
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-header bg-white border-0">
+
+                    <h5 class="fw-bold mb-0">
+                        📈 Booking per Bulan
+                    </h5>
 
                 </div>
 
                 <div class="card-body">
 
-                    <div class="table-responsive">
+                    <canvas id="bookingChart" height="120"></canvas>
 
-                        <table class="table align-middle">
+                </div>
 
-                            <thead class="table-light">
+            </div>
 
-                                <tr>
-                                    <th>Kode</th>
-                                    <th>Nama</th>
-                                    <th>Status</th>
-                                </tr>
+        </div>
 
-                            </thead>
+        {{-- Status --}}
+        <div class="col-lg-4">
 
-                            <tbody>
+            <div class="card border-0 shadow-sm rounded-4">
 
-                                @forelse($latestEquipments as $equipment)
+                <div class="card-header bg-white border-0">
 
-                                <tr>
+                    <h5 class="fw-bold mb-0">
+                        🚜 Status Alat
+                    </h5>
 
-                                    <td>
+                </div>
 
-                                        <strong>
+                <div class="card-body">
 
-                                            {{ $equipment->code }}
+                    <canvas id="statusChart"></canvas>
 
-                                        </strong>
+                </div>
 
-                                    </td>
+            </div>
 
-                                    <td>
+        </div>
 
-                                        {{ $equipment->name }}
+    </div>
 
-                                    </td>
+    <div class="row mt-4">
 
-                                    <td>
+        <div class="col-12">
 
-                                        @if($equipment->status == 'available')
+            <div class="card border-0 shadow-sm rounded-4">
 
-                                            <span class="badge bg-success rounded-pill px-3">
-                                                Tersedia
-                                            </span>
+                <div class="card-header bg-white border-0">
 
-                                        @elseif($equipment->status == 'maintenance')
+                    <h5 class="fw-bold mb-0">
+                        💰 Pendapatan Bulanan
+                    </h5>
 
-                                            <span class="badge bg-warning text-dark rounded-pill px-3">
-                                                Maintenance
-                                            </span>
+                </div>
 
-                                        @else
+                <div class="card-body">
 
-                                            <span class="badge bg-danger rounded-pill px-3">
-                                                Disewa
-                                            </span>
+                    <canvas id="incomeChart" height="100"></canvas>
 
-                                        @endif
+                </div>
 
-                                    </td>
+            </div>
 
-                                </tr>
+        </div>
 
-                                @empty
+    </div>
+<script>
 
-                                <tr>
+const months = [
+    '', 'Jan','Feb','Mar','Apr','Mei','Jun',
+    'Jul','Agu','Sep','Okt','Nov','Des'
+];
 
-                                    <td colspan="3" class="text-center text-muted py-4">
 
-                                        Belum ada alat
+// ==========================
+// Booking Chart
+// ==========================
 
-                                    </td>
+new Chart(document.getElementById('bookingChart'), {
 
-                                </tr>
+    type:'line',
 
-                                @endforelse
+    data:{
 
-                            </tbody>
+        labels:[
+            @foreach($bookingChart as $item)
+                months[{{ $item->month }}],
+            @endforeach
+        ],
 
-                        </table>
+        datasets:[{
+
+            label:'Booking',
+
+            data:[
+                @foreach($bookingChart as $item)
+                    {{ $item->total }},
+                @endforeach
+            ],
+
+            borderWidth:3,
+
+            fill:true,
+
+            tension:0.4
+
+        }]
+
+    }
+
+});
+
+
+// ==========================
+// Income Chart
+// ==========================
+
+new Chart(document.getElementById('incomeChart'),{
+
+    type:'bar',
+
+    data:{
+
+        labels:[
+            @foreach($incomeChart as $item)
+                months[{{ $item->month }}],
+            @endforeach
+        ],
+
+        datasets:[{
+
+            label:'Pendapatan',
+
+            data:[
+                @foreach($incomeChart as $item)
+                    {{ $item->total }},
+                @endforeach
+            ],
+
+            borderWidth:1
+
+        }]
+
+    }
+
+});
+
+
+// ==========================
+// Status Chart
+// ==========================
+
+new Chart(document.getElementById('statusChart'),{
+
+    type:'doughnut',
+
+    data:{
+
+        labels:[
+            @foreach($statusChart as $item)
+                '{{ ucfirst($item->status) }}',
+            @endforeach
+        ],
+
+        datasets:[{
+
+            data:[
+                @foreach($statusChart as $item)
+                    {{ $item->total }},
+                @endforeach
+            ]
+
+        }]
+
+    }
+
+});
+
+</script>
+{{-- ===================================== --}}
+{{-- Booking Terbaru & Alat Terbaru --}}
+{{-- ===================================== --}}
+
+<div class="row mt-4">
+
+    {{-- Booking Terbaru --}}
+    <div class="col-lg-7">
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
+
+                <h5 class="fw-bold mb-0">
+                    📋 Booking Terbaru
+                </h5>
+
+                <span class="badge bg-primary">
+                    {{ $latestBookings->count() }}
+                </span>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>Customer</th>
+                            <th>Alat</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    @forelse($latestBookings as $booking)
+
+                        <tr>
+
+                            <td>
+
+                                <strong>
+
+                                    {{ $booking->user->name }}
+
+                                </strong>
+
+                            </td>
+
+                            <td>
+
+                                {{ $booking->equipment->name }}
+
+                            </td>
+
+                            <td>
+
+                                @if($booking->status == 'approved')
+
+                                    <span class="badge bg-success">
+
+                                        Approved
+
+                                    </span>
+
+                                @elseif($booking->status == 'pending')
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Pending
+
+                                    </span>
+
+                                @else
+
+                                    <span class="badge bg-danger">
+
+                                        Rejected
+
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="3" class="text-center py-4">
+
+                                Belum ada booking.
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- Alat Terbaru --}}
+    <div class="col-lg-5">
+
+        <div class="card border-0 shadow-sm rounded-4">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="fw-bold mb-0">
+
+                    🚜 Alat Terbaru
+
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                @foreach($latestEquipments as $equipment)
+
+                    <div class="d-flex align-items-center mb-3">
+
+                        @if($equipment->image)
+
+                            <img src="{{ asset('images/alat/'.$equipment->image) }}"
+                                 width="55"
+                                 height="55"
+                                 class="rounded shadow-sm me-3"
+                                 style="object-fit:cover;">
+
+                        @else
+
+                            <div class="bg-light rounded d-flex align-items-center justify-content-center me-3"
+                                 style="width:55px;height:55px;">
+
+                                🚜
+
+                            </div>
+
+                        @endif
+
+                        <div class="flex-grow-1">
+
+                            <strong>
+
+                                {{ $equipment->name }}
+
+                            </strong>
+
+                            <br>
+
+                            <small class="text-muted">
+
+                                {{ $equipment->category->name ?? '-' }}
+
+                            </small>
+
+                        </div>
+
+                        @if($equipment->status == 'available')
+
+                            <span class="badge bg-success">
+
+                                Ready
+
+                            </span>
+
+                        @elseif($equipment->status == 'rented')
+
+                            <span class="badge bg-warning text-dark">
+
+                                Rent
+
+                            </span>
+
+                        @else
+
+                            <span class="badge bg-danger">
+
+                                Service
+
+                            </span>
+
+                        @endif
 
                     </div>
 
-                </div>
+                @endforeach
 
             </div>
 
@@ -445,50 +670,182 @@
     </div>
 
 </div>
+{{-- ========================================= --}}
+{{-- WIDGET DASHBOARD --}}
+{{-- ========================================= --}}
 
-<style>
+<div class="row mt-4">
 
-    body{
-        background: #f4f7fb;
-    }
+    {{-- Quick Action --}}
+    <div class="col-lg-4">
 
-    .stat-card{
-        border-radius: 20px;
-        transition: 0.3s ease;
-    }
+        <div class="card border-0 shadow-sm rounded-4 h-100">
 
-    .stat-card:hover{
-        transform: translateY(-5px);
-    }
+            <div class="card-header bg-white border-0">
 
-    .icon-box{
-        width: 55px;
-        height: 55px;
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-    }
+                <h5 class="fw-bold mb-0">
+                    ⚡ Quick Action
+                </h5>
 
-    .income-card{
-        border-radius: 20px;
-        background: linear-gradient(135deg, #ff9800, #ff5722);
-    }
+            </div>
 
-    .income-icon{
-        font-size: 45px;
-        opacity: .85;
-    }
+            <div class="card-body d-grid gap-3">
 
-    .table tbody tr{
-        transition: 0.2s ease;
-    }
+                <a href="{{ route('equipments.create') }}"
+                    class="btn btn-primary rounded-pill">
 
-    .table tbody tr:hover{
-        background: #fafafa;
-    }
+                    ➕ Tambah Alat
 
-</style>
+                </a>
 
+                <a href="{{ route('bookings.index') }}"
+                    class="btn btn-success rounded-pill">
+
+                    📋 Kelola Booking
+
+                </a>
+
+                <a href="{{ route('payments.index') }}"
+                    class="btn btn-warning rounded-pill">
+
+                    💳 Verifikasi Payment
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- Ringkasan --}}
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="fw-bold mb-0">
+                    📊 Ringkasan Sistem
+                </h5>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="mb-3">
+
+                    <small class="text-muted">
+
+                        Booking Pending
+
+                    </small>
+
+                    <div class="progress mt-1">
+
+                        <div class="progress-bar bg-warning"
+                             style="width: {{ min($pendingBooking*10,100) }}%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <small class="text-muted">
+
+                        Booking Approved
+
+                    </small>
+
+                    <div class="progress mt-1">
+
+                        <div class="progress-bar bg-success"
+                             style="width: {{ min($approvedBooking*10,100) }}%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <small class="text-muted">
+
+                        Return Pending
+
+                    </small>
+
+                    <div class="progress mt-1">
+
+                        <div class="progress-bar bg-danger"
+                             style="width: {{ min($returnPending*10,100) }}%">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- Jam Digital --}}
+    <div class="col-lg-4">
+
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+
+            <div class="card-header bg-white border-0">
+
+                <h5 class="fw-bold mb-0">
+
+                    🕒 Waktu
+
+                </h5>
+
+            </div>
+
+            <div class="card-body text-center">
+
+                <h2 id="clock" class="fw-bold text-primary">
+
+                    00:00:00
+
+                </h2>
+
+                <p class="text-muted mb-0">
+
+                    {{ now()->format('l, d F Y') }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+function updateClock(){
+
+    const now = new Date();
+
+    document.getElementById('clock').innerHTML =
+        now.toLocaleTimeString('id-ID');
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+</script>
 @endsection

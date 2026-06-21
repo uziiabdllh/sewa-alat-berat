@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 
@@ -6,218 +6,269 @@
 
     <div class="row justify-content-center">
 
-        <div class="col-lg-8">
+        <div class="col-lg-9">
 
-            <div class="card shadow">
+            {{-- HEADER --}}
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
 
-                <div class="card-header bg-warning fw-bold">
-                    Edit Alat Berat
+                <div>
+
+                    <h1 class="fw-bold mb-1">
+                        ✏️ Edit Alat Berat
+                    </h1>
+
+                    <p class="text-muted mb-0">
+                        Perbarui informasi alat berat dengan mudah.
+                    </p>
+
                 </div>
 
-                <div class="card-body">
+                <a href="{{ route('equipments.index') }}"
+                   class="btn btn-outline-secondary rounded-pill px-4">
+
+                    ← Kembali
+
+                </a>
+
+            </div>
+
+            {{-- CARD --}}
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+                {{-- HEADER CARD --}}
+                <div class="card-header bg-warning text-dark py-3 border-0">
+
+                    <h5 class="mb-0 fw-semibold">
+                        Form Edit Alat
+                    </h5>
+
+                </div>
+
+                {{-- BODY --}}
+                <div class="card-body p-4">
 
                     <form action="{{ route('equipments.update', $equipment->id) }}"
-                    method="POST"
-                    enctype="multipart/form-data">
+                          method="POST"
+                          enctype="multipart/form-data">
 
                         @csrf
                         @method('PUT')
 
-                        {{-- Kategori --}}
-                        <div class="mb-3">
+                        <div class="row">
 
-                            <label class="form-label">
-                                Kategori
-                            </label>
+                            {{-- KATEGORI --}}
+                            <div class="col-md-6 mb-4">
 
-                            <select
-                                name="category_id"
-                                class="form-select">
+                                <label class="form-label fw-semibold">
+                                    Kategori
+                                </label>
 
-                                @foreach($categories as $category)
+                                <select
+                                    name="category_id"
+                                    class="form-select rounded-3">
 
-                                    <option
-                                        value="{{ $category->id }}"
-                                        {{ $equipment->category_id == $category->id ? 'selected' : '' }}>
+                                    @foreach($categories as $category)
 
-                                        {{ $category->name }}
+                                        <option
+                                            value="{{ $category->id }}"
+                                            {{ $equipment->category_id == $category->id ? 'selected' : '' }}>
 
+                                            {{ $category->name }}
+
+                                        </option>
+
+                                    @endforeach
+
+                                </select>
+
+                            </div>
+
+                            {{-- KODE --}}
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Kode Alat
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="code"
+                                    value="{{ $equipment->code }}"
+                                    class="form-control rounded-3">
+
+                            </div>
+
+                            {{-- NAMA --}}
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Nama Alat
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value="{{ $equipment->name }}"
+                                    class="form-control rounded-3">
+
+                            </div>
+
+                            {{-- BRAND --}}
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Brand
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="brand"
+                                    value="{{ $equipment->brand }}"
+                                    class="form-control rounded-3">
+
+                            </div>
+
+                            {{-- TAHUN --}}
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Tahun
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="year"
+                                    value="{{ $equipment->year }}"
+                                    class="form-control rounded-3">
+
+                            </div>
+
+                            {{-- HARGA --}}
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Harga Per Hari
+                                </label>
+
+                                <input
+                                    type="number"
+                                    name="daily_price"
+                                    value="{{ $equipment->daily_price }}"
+                                    class="form-control rounded-3">
+
+                            </div>
+
+                            {{-- STATUS --}}
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Status
+                                </label>
+
+                                <select
+                                    name="status"
+                                    class="form-select rounded-3">
+
+                                    <option value="available"
+                                        {{ $equipment->status == 'available' ? 'selected' : '' }}>
+                                        Available
                                     </option>
 
-                                @endforeach
+                                    <option value="rented"
+                                        {{ $equipment->status == 'rented' ? 'selected' : '' }}>
+                                        Rented
+                                    </option>
 
-                            </select>
+                                    <option value="maintenance"
+                                        {{ $equipment->status == 'maintenance' ? 'selected' : '' }}>
+                                        Maintenance
+                                    </option>
 
-                        </div>
+                                </select>
 
-                        {{-- Kode --}}
-                        <div class="mb-3">
+                            </div>
 
-                            <label class="form-label">
-                                Kode Alat
-                            </label>
+                            {{-- STOK --}}
+                            <div class="col-md-6 mb-4">
 
-                            <input
-                                type="text"
-                                name="code"
-                                value="{{ $equipment->code }}"
-                                class="form-control">
+                                <label class="form-label fw-semibold">
+                                    Stok
+                                </label>
 
-                        </div>
+                                <input
+                                    type="number"
+                                    name="stok"
+                                    value="{{ $equipment->stok }}"
+                                    class="form-control rounded-3">
 
-                        {{-- Nama --}}
-                        <div class="mb-3">
+                            </div>
 
-                            <label class="form-label">
-                                Nama Alat
-                            </label>
+                            {{-- FOTO --}}
+                            <div class="col-12 mb-4">
 
-                            <input
-                                type="text"
-                                name="name"
-                                value="{{ $equipment->name }}"
-                                class="form-control">
+                                <label class="form-label fw-semibold">
+                                    Foto Alat
+                                </label>
 
-                        </div>
+                                <input
+                                    type="file"
+                                    name="image"
+                                    class="form-control rounded-3">
 
-                        {{-- Brand --}}
-                        <div class="mb-3">
+                            </div>
 
-                            <label class="form-label">
-                                Brand
-                            </label>
+                            {{-- PREVIEW FOTO --}}
+                            @if($equipment->image)
 
-                            <input
-                                type="text"
-                                name="brand"
-                                value="{{ $equipment->brand }}"
-                                class="form-control">
+                            <div class="col-12 mb-4">
 
-                        </div>
+                                <label class="form-label fw-semibold d-block">
+                                    Foto Saat Ini
+                                </label>
 
-                        {{-- Tahun --}}
-                        <div class="mb-3">
+                                <img src="{{ asset('images/alat/'.$equipment->image) }}"
+                                     class="rounded-4 shadow-sm border"
+                                     width="180">
 
-                            <label class="form-label">
-                                Tahun
-                            </label>
+                            </div>
 
-                            <input
-                                type="number"
-                                name="year"
-                                value="{{ $equipment->year }}"
-                                class="form-control">
+                            @endif
 
-                        </div>
+                            {{-- DESKRIPSI --}}
+                            <div class="col-12 mb-4">
 
-                        {{-- Harga --}}
-                        <div class="mb-3">
+                                <label class="form-label fw-semibold">
+                                    Deskripsi
+                                </label>
 
-                            <label class="form-label">
-                                Harga Per Hari
-                            </label>
+                                <textarea
+                                    name="description"
+                                    rows="5"
+                                    class="form-control rounded-3">{{ $equipment->description }}</textarea>
 
-                            <input
-                                type="number"
-                                name="daily_price"
-                                value="{{ $equipment->daily_price }}"
-                                class="form-control">
+                            </div>
 
                         </div>
 
-                        {{-- Status --}}
-                        <div class="mb-3">
+                        {{-- BUTTON --}}
+                        <div class="d-flex gap-2">
 
-                            <label class="form-label">
-                                Status
-                            </label>
+                            <button
+                                type="submit"
+                                class="btn btn-warning rounded-pill px-4 fw-semibold">
 
-                            <select
-                                name="status"
-                                class="form-select">
+                                💾 Update Data
 
-                                <option value="available"
-                                    {{ $equipment->status == 'available' ? 'selected' : '' }}>
-                                    Available
-                                </option>
+                            </button>
 
-                                <option value="rented"
-                                    {{ $equipment->status == 'rented' ? 'selected' : '' }}>
-                                    Rented
-                                </option>
+                            <a href="{{ route('equipments.index') }}"
+                               class="btn btn-outline-secondary rounded-pill px-4">
 
-                                <option value="maintenance"
-                                    {{ $equipment->status == 'maintenance' ? 'selected' : '' }}>
-                                    Maintenance
-                                </option>
+                                Batal
 
-                            </select>
+                            </a>
 
                         </div>
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Stok
-                            </label>
-
-                            <input
-                                type="number"
-                                name="stok"
-                                value="{{ $equipment->stok }}"
-                                class="form-control">
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Foto Alat
-                            </label>
-
-                            <input
-                                type="file"
-                                name="image"
-                                class="form-control">
-
-                        </div>
-
-                        @if($equipment->image)
-
-                            <img src="{{ asset('images/alat/'.$equipment->image) }}"
-                                width="120"
-                                class="mt-2 rounded">
-
-                        @endif
-
-                        {{-- Deskripsi --}}
-                        <div class="mb-4">
-
-                            <label class="form-label">
-                                Deskripsi
-                            </label>
-
-                            <textarea
-                                name="description"
-                                rows="4"
-                                class="form-control">{{ $equipment->description }}</textarea>
-
-                        </div>
-
-                        {{-- Button --}}
-                        <button
-                            type="submit"
-                            class="btn btn-warning">
-
-                            Update
-
-                        </button>
-
-                        <a href="{{ route('equipments.index') }}"
-                           class="btn btn-secondary">
-
-                            Kembali
-
-                        </a>
 
                     </form>
 
@@ -230,5 +281,29 @@
     </div>
 
 </div>
+
+<style>
+
+    body{
+        background: #f4f7fb;
+    }
+
+    .card{
+        border-radius: 24px;
+    }
+
+    .form-control,
+    .form-select{
+        padding: 12px;
+        border: 1px solid #dee2e6;
+    }
+
+    .form-control:focus,
+    .form-select:focus{
+        box-shadow: 0 0 0 0.15rem rgba(255,193,7,.25);
+        border-color: #ffc107;
+    }
+
+</style>
 
 @endsection

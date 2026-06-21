@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 
@@ -62,6 +62,7 @@
 
         </div>
 
+        {{-- TABLE --}}
         <div class="card-body p-0">
 
             <div class="table-responsive">
@@ -91,13 +92,14 @@
 
                         <tr>
 
+                            {{-- NOMOR --}}
                             <td class="px-4 fw-semibold">
 
                                 {{ $bookings->firstItem() + $loop->index }}
 
                             </td>
 
-                            {{-- KODE --}}
+                            {{-- KODE BOOKING --}}
                             <td>
 
                                 <div class="fw-bold text-dark">
@@ -107,7 +109,9 @@
                                 </div>
 
                                 <small class="text-muted">
+
                                     {{ $booking->created_at->format('d M Y') }}
+
                                 </small>
 
                             </td>
@@ -132,22 +136,48 @@
                             {{-- ALAT --}}
                             <td>
 
-                                <div class="fw-semibold">
+                                <div class="d-flex align-items-center gap-3">
 
-                                    @if($booking->equipment)
-                                    {{ $booking->equipment->name }}
-                                @else
-                                    <span class="text-danger">Alat tidak ditemukan</span>
-                                @endif
+                                    {{-- FOTO --}}
+                                    @if($booking->equipment && $booking->equipment->image)
+
+                                        <img
+                                            src="{{ asset('images/alat/'.$booking->equipment->image) }}"
+                                            width="70"
+                                            height="70"
+                                            class="rounded-3 shadow-sm"
+                                            style="object-fit:cover;">
+
+                                    @endif
+
+                                    <div>
+
+                                        <div class="fw-semibold">
+
+                                            @if($booking->equipment)
+
+                                                {{ $booking->equipment->name }}
+
+                                            @else
+
+                                                <span class="text-danger">
+                                                    Alat tidak ditemukan
+                                                </span>
+
+                                            @endif
+
+                                        </div>
+
+                                        <small class="text-muted">
+
+                                            Qty :
+                                            {{ $booking->quantity ?? 1 }}
+
+                                        </small>
+
+                                    </div>
 
                                 </div>
-
-                                <small class="text-muted">
-
-                                    Qty :
-                                    {{ $booking->quantity ?? 1 }}
-
-                                </small>
 
                             </td>
 
@@ -272,12 +302,12 @@
 
         </div>
 
-    </div>
+        {{-- PAGINATION --}}
+        <div class="py-4 d-flex justify-content-center bg-white border-top">
 
-    {{-- PAGINATION --}}
-    <div class="mt-4 d-flex justify-content-center">
+            {{ $bookings->links() }}
 
-        {{ $bookings->links() }}
+        </div>
 
     </div>
 

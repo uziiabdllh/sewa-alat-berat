@@ -113,4 +113,19 @@ class BookingController1 extends Controller
             'equipment' => $booking->equipment
         ]);
     }
+public function requestReturn($id)
+{
+    $booking = Booking::with('equipment')->findOrFail($id);
+
+    // kalau sudah pernah request
+    if ($booking->return_status === 'pending') {
+        return redirect()->back()->with('error', 'Sudah mengajukan pengembalian.');
+    }
+
+    // update status return
+    $booking->return_status = 'pending';
+    $booking->save();
+
+    return redirect()->back()->with('success', 'Pengajuan pengembalian berhasil dikirim.');
+}
 }

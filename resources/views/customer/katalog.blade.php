@@ -8,6 +8,7 @@
     <div class="d-flex justify-content-between align-items-center flex-wrap mb-5">
 
         <div>
+
             <h1 class="fw-bold display-6 mb-2">
                 🚜 Katalog Alat Berat
             </h1>
@@ -15,12 +16,17 @@
             <p class="text-muted mb-0">
                 Pilih alat terbaik untuk mendukung proyek Anda.
             </p>
+
         </div>
 
         <div class="mt-3 mt-md-0">
+
             <span class="badge bg-dark px-4 py-3 fs-6 shadow-sm">
+
                 {{ $equipments->count() }} Alat Tersedia
+
             </span>
+
         </div>
 
     </div>
@@ -76,143 +82,171 @@
 
         @forelse($equipments as $equipment)
 
-        <div class="col-lg-4 col-md-6 mb-4">
+            @php
+                $stok = (int) $equipment->stok;
+            @endphp
 
-            <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 equipment-card">
+            <div class="col-lg-4 col-md-6 mb-4">
 
-                {{-- Image --}}
-                <div class="position-relative">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100 equipment-card
+                    {{ $stok <= 0 ? 'opacity-75' : '' }}">
 
-                    <img
-                        src="{{ asset('images/alat/'.$equipment->image) }}"
-                        class="card-img-top"
-                        style="height:250px; object-fit:cover;">
+                    {{-- Image --}}
+                    <div class="position-relative">
 
-                    {{-- Status --}}
-                    <div class="position-absolute top-0 end-0 m-3">
+                        <img
+                            src="{{ asset('images/alat/'.$equipment->image) }}"
+                            class="card-img-top"
+                            style="height:250px; object-fit:cover;">
 
-                        @if($equipment->status == 'available')
+                        {{-- Status --}}
+                        <div class="position-absolute top-0 end-0 m-3">
 
-                            <span class="badge bg-success px-3 py-2 shadow-sm">
-                                Tersedia
-                            </span>
+                            @if($stok > 0)
 
-                        @elseif($equipment->status == 'maintenance')
+                                <span class="badge bg-success px-3 py-2 shadow-sm">
+                                    Tersedia
+                                </span>
 
-                            <span class="badge bg-warning text-dark px-3 py-2 shadow-sm">
-                                Maintenance
-                            </span>
+                            @else
 
-                        @else
+                                <span class="badge bg-danger px-3 py-2 shadow-sm">
+                                    Stok Habis
+                                </span>
 
-                            <span class="badge bg-danger px-3 py-2 shadow-sm">
-                                Disewa
-                            </span>
+                            @endif
 
-                        @endif
+                        </div>
+
+                    </div>
+
+                    {{-- Body --}}
+                    <div class="card-body p-4 d-flex flex-column">
+
+                        {{-- Nama --}}
+                        <div class="mb-3">
+
+                            <h4 class="fw-bold mb-2">
+                                {{ $equipment->name }}
+                            </h4>
+
+                            <p class="text-muted small mb-0">
+                                {{ optional($equipment->category)->name }}
+                            </p>
+
+                        </div>
+
+                        {{-- Harga --}}
+                        <div class="bg-light rounded-4 p-3 mb-4">
+
+                            <small class="text-muted d-block mb-1">
+                                Harga Sewa / Hari
+                            </small>
+
+                            <h3 class="fw-bold text-warning mb-0">
+
+                                Rp {{ number_format($equipment->daily_price,0,',','.') }}
+
+                            </h3>
+
+                        </div>
+
+                        {{-- Info --}}
+                        <div class="mb-4">
+
+                            <div class="d-flex justify-content-between mb-2">
+
+                                <span class="text-muted">
+                                    Kode Alat
+                                </span>
+
+                                <strong>
+                                    {{ $equipment->code }}
+                                </strong>
+
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+
+                                <span class="text-muted">
+                                    Stok
+                                </span>
+
+                                <strong class="{{ $stok <= 0 ? 'text-danger' : 'text-success' }}">
+
+                                    {{ $stok }} Unit
+
+                                </strong>
+
+                            </div>
+
+                            @if($stok <= 0)
+
+                                <div class="mt-3">
+
+                                    <span class="badge bg-danger px-3 py-2">
+                                        Tidak Bisa Disewa
+                                    </span>
+
+                                </div>
+
+                            @endif
+
+                        </div>
+
+                        {{-- Button --}}
+                        <div class="mt-auto d-grid">
+
+                            @if($stok > 0)
+
+                                <a href="{{ route('customer.detail',$equipment->id) }}"
+                                   class="btn btn-dark btn-lg rounded-pill">
+
+                                    Lihat Detail →
+
+                                </a>
+
+                            @else
+
+                                <button
+                                    class="btn btn-secondary btn-lg rounded-pill"
+                                    disabled>
+
+                                    Tidak Tersedia
+
+                                </button>
+
+                            @endif
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                {{-- Body --}}
-                <div class="card-body p-4 d-flex flex-column">
+            </div>
 
-                    <div class="mb-3">
+        @empty
 
-                        <h4 class="fw-bold mb-2">
-                            {{ $equipment->name }}
+            <div class="col-12">
+
+                <div class="card border-0 shadow-sm rounded-4">
+
+                    <div class="card-body text-center py-5">
+
+                        <h4 class="fw-bold mb-3">
+                            😢 Alat tidak ditemukan
                         </h4>
 
-                        <p class="text-muted small mb-0">
-                            {{ optional($equipment->category)->name }}
+                        <p class="text-muted mb-0">
+                            Coba gunakan kata kunci lain.
                         </p>
 
                     </div>
 
-                    {{-- Harga --}}
-                    <div class="bg-light rounded-4 p-3 mb-4">
-
-                        <small class="text-muted d-block mb-1">
-                            Harga Sewa / Hari
-                        </small>
-
-                        <h3 class="fw-bold text-warning mb-0">
-
-                            Rp {{ number_format($equipment->daily_price,0,',','.') }}
-
-                        </h3>
-
-                    </div>
-
-                    {{-- Info --}}
-                    <div class="mb-4">
-
-                        <div class="d-flex justify-content-between mb-2">
-
-                            <span class="text-muted">
-                                Kode Alat
-                            </span>
-
-                            <strong>
-                                {{ $equipment->code }}
-                            </strong>
-
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-
-                            <span class="text-muted">
-                                Stok
-                            </span>
-
-                            <strong>
-                                {{ $equipment->stok ?? 0 }} Unit
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-                    {{-- Button --}}
-                    <div class="mt-auto d-grid">
-
-                        <a href="{{ route('customer.detail',$equipment->id) }}"
-                           class="btn btn-dark btn-lg rounded-pill">
-
-                            Lihat Detail →
-
-                        </a>
-
-                    </div>
-
                 </div>
 
             </div>
-
-        </div>
-
-        @empty
-
-        <div class="col-12">
-
-            <div class="card border-0 shadow-sm rounded-4">
-
-                <div class="card-body text-center py-5">
-
-                    <h4 class="fw-bold mb-3">
-                        😢 Alat tidak ditemukan
-                    </h4>
-
-                    <p class="text-muted mb-0">
-                        Coba gunakan kata kunci lain.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
 
         @endforelse
 
@@ -233,6 +267,10 @@
     .equipment-card:hover{
         transform: translateY(-8px);
         box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important;
+    }
+
+    .opacity-75{
+        filter: grayscale(20%);
     }
 
 </style>
