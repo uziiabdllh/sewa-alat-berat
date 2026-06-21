@@ -363,21 +363,27 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.js"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-const sidebar = document.getElementById('sidebar');
-const content = document.getElementById('content');
-const toggle = document.getElementById('toggleSidebar');
+document.addEventListener('DOMContentLoaded', function () {
 
-toggle.onclick = function () {
-    sidebar.classList.toggle('hide');
-    content.classList.toggle('hide');
-}
+    const toggle = document.getElementById('toggleSidebar');
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('content');
+
+    if (toggle && sidebar && content) {
+
+        toggle.addEventListener('click', function () {
+
+            sidebar.classList.toggle('hide');
+            content.classList.toggle('hide');
+
+        });
+
+    }
+
+});
 </script>
-
 @stack('scripts')
 
 </body>

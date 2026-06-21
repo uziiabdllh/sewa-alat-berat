@@ -19,7 +19,11 @@
 
                     Halo,
                     <span class="text-warning">
-                        {{ auth()->user()->name }}
+                        @if(auth()->check())
+                            {{ auth()->user()->name }}
+                        @else
+                            Guest
+                        @endif
                     </span>
 
                 </h1>

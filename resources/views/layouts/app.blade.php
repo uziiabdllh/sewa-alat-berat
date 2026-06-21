@@ -182,10 +182,9 @@
 
 <div class="container">
 
-<a class="navbar-brand" href="{{ route('home') }}">
-
- TREK
-
+<a class="navbar-brand"
+   href="{{ auth()->check() ? route('home') : route('welcome') }}">
+    TREK
 </a>
 
 <button

@@ -345,51 +345,38 @@
         </div>
 
     </div>
+@push('scripts')
 <script>
 
 const months = [
-    '', 'Jan','Feb','Mar','Apr','Mei','Jun',
+    '',
+    'Jan','Feb','Mar','Apr','Mei','Jun',
     'Jul','Agu','Sep','Okt','Nov','Des'
 ];
 
-
-// ==========================
-// Booking Chart
-// ==========================
-
 new Chart(document.getElementById('bookingChart'), {
-
-    type:'line',
-
-    data:{
-
-        labels:[
+    type: 'line',
+    data: {
+        labels: [
             @foreach($bookingChart as $item)
                 months[{{ $item->month }}],
             @endforeach
         ],
-
-        datasets:[{
-
-            label:'Booking',
-
-            data:[
+        datasets: [{
+            label: 'Booking',
+            data: [
                 @foreach($bookingChart as $item)
                     {{ $item->total }},
                 @endforeach
             ],
-
-            borderWidth:3,
-
-            fill:true,
-
-            tension:0.4
-
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(37,99,235,.2)',
+            fill: true,
+            tension: .4
         }]
-
     }
-
 });
+
 
 
 // ==========================
@@ -458,6 +445,7 @@ new Chart(document.getElementById('statusChart'),{
 });
 
 </script>
+@endpush
 {{-- ===================================== --}}
 {{-- Booking Terbaru & Alat Terbaru --}}
 {{-- ===================================== --}}
